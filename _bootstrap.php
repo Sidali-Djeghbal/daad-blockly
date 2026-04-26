@@ -3,7 +3,16 @@ declare(strict_types=1);
 session_start(['cookie_httponly' => true, 'cookie_samesite' => 'Lax']);
 
 function h(string $v): string { return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
-function redirect(string $path): void { header('Location: ' . $path); exit; }
+function redirect(string $path): void { 
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $base = $scheme . '://' . $host;
+    if ($path[0] !== '/') {
+        $path = $base . '/' . $path;
+    }
+    header('Location: ' . $path); 
+    exit; 
+}
 function jsonResp(array $data, int $code = 200): void { http_response_code($code); header('Content-Type: application/json'); echo json_encode($data, JSON_UNESCAPED_UNICODE); exit; }
 function csrf(): string {
     if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(32));
@@ -29,7 +38,12 @@ function run_daad_code(string $code): array { return runDaad($code); }
 function db(): PDO {
     static $pdo;
     if (!$pdo) {
-        $pdo = new PDO('mysql:host=localhost;dbname=daad_db;charset=utf8mb4', 'root', '', [
+        $host = getenv('DB_HOST') ?: 'localhost';
+        $port = getenv('DB_PORT') ?: '3306';
+        $user = getenv('DB_USER') ?: 'root';
+        $pass = getenv('DB_PASS') ?: '';
+        $name = getenv('DB_NAME') ?: 'daad_db';
+        $pdo = new PDO("mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4", $user, $pass, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ]);

@@ -1,0 +1,6 @@
+{
+  "build": {
+    "builder": "heroku/builder-classic:php"
+  },
+  "start": "php -S 0.0.0.0:8080 -t ."
+}

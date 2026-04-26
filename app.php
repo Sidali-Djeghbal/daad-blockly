@@ -9,14 +9,14 @@ $workspaceJson = loadWorkspace((int) $user['id']);
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>لغة ضاد</title>
-  <link rel="stylesheet" href="/daad/assets/css/app.css" />
+  <link rel="stylesheet" href="assets/css/app.css" />
 </head>
 <body>
   <header class="topbar">
     <strong>لغة ضاد</strong>
     <div class="user-info">
       <span class="muted"><?=h($user['username'])?></span>
-      <form method="post" action="/daad/logout.php">
+      <form method="post" action="logout.php">
         <input type="hidden" name="csrf" value="<?=csrf()?>" />
         <input type="hidden" name="workspace_json" id="logoutData" value="" />
         <button class="btn btn-secondary" type="submit">خروج</button>
@@ -49,16 +49,16 @@ $workspaceJson = loadWorkspace((int) $user['id']);
   </main>
 
   <script src="https://unpkg.com/blockly/blockly.min.js"></script>
-  <script src="/daad/assets/js/blocks/io.js"></script>
-  <script src="/daad/assets/js/blocks/math.js"></script>
-  <script src="/daad/assets/js/blocks/variables.js"></script>
-  <script src="/daad/assets/js/blocks/logic.js"></script>
-  <script src="/daad/assets/js/blocks/lists.js"></script>
-  <script src="/daad/assets/js/blocks/control.js"></script>
-  <script src="/daad/assets/js/blocks/functions.js"></script>
-  <script src="/daad/assets/js/blocks/toolbox.js"></script>
-  <script src="/daad/assets/js/generator/index.js"></script>
+  <script src="assets/js/blocks/io.js"></script>
+  <script src="assets/js/blocks/math.js"></script>
+  <script src="assets/js/blocks/variables.js"></script>
+  <script src="assets/js/blocks/logic.js"></script>
+  <script src="assets/js/blocks/lists.js"></script>
+  <script src="assets/js/blocks/control.js"></script>
+  <script src="assets/js/blocks/functions.js"></script>
+  <script src="assets/js/blocks/toolbox.js"></script>
+  <script src="assets/js/generator/index.js"></script>
   <script>window.DAAD_APP={csrf:'<?=csrf()?>',json:<?=json_encode($workspaceJson,JSON_UNESCAPED_UNICODE)?>};</script>
-  <script src="/daad/assets/js/app.js"></script>
+  <script src="assets/js/app.js"></script>
 </body>
 </html>

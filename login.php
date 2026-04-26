@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/_bootstrap.php';
 $user = currentUser();
-if ($user) redirect('/daad/app.php');
+if ($user) redirect('app.php');
 
 $errors = [];
 $username = '';
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'بيانات الدخول غير صحيحة';
         } else {
             loginUser((int) $row['id']);
-            redirect('/daad/app.php');
+            redirect('app.php');
         }
     }
 }
@@ -32,14 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>دخول - لغة ضاد</title>
-  <link rel="stylesheet" href="/daad/assets/css/auth.css" />
+  <link rel="stylesheet" href="assets/css/auth.css" />
 </head>
 <body>
   <div class="auth-container">
     <div class="auth-card">
       <div class="auth-logo">
         <div class="logo-icon">
-          <img src="/daad/assets/img/logo-dark.svg" alt="logo">
+          <img src="assets/img/logo-dark.svg" alt="logo">
         </div>
         <h1>لغة ضاد</h1>
         <p>تعلّم البرمجة بالعربية</p>
