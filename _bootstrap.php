@@ -7,8 +7,10 @@ function redirect(string $path): void {
     $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
     $base = $scheme . '://' . $host;
-    if ($path[0] !== '/') {
+    if ($path !== '' && $path[0] !== '/') {
         $path = $base . '/' . $path;
+    } elseif ($path[0] === '/') {
+        $path = $base . $path;
     }
     header('Location: ' . $path); 
     exit; 

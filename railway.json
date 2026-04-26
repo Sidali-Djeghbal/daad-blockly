@@ -1,6 +1,8 @@
 {
   "build": {
-    "builder": "heroku/builder-classic:php"
+    "builder": "RAILPACK"
   },
-  "start": "php -S 0.0.0.0:8080 -t ."
+  "deploy": {
+    "startCommand": "php -S 0.0.0.0:8080 -t ."
+  }
 }
