@@ -1,5 +1,12 @@
 <?php
 $uri = $_SERVER['REQUEST_URI'] ?? '/';
+$uri = strtok($uri, '?');
+
+if ($uri === '/api.php' || strpos($uri, '/api.php') === 0) {
+    require __DIR__ . '/api.php';
+    return true;
+}
+
 $file = __DIR__ . $uri;
 
 if (is_dir($file)) {
