@@ -1,8 +1,9 @@
 {
   "build": {
-    "builder": "RAILPACK"
+    "builder": "RAILPACK",
+    "name": "PHP"
   },
   "deploy": {
-    "startCommand": "php -S 0.0.0.0:8080 -t ."
+    "startCommand": "frankenphp run"
   }
 }

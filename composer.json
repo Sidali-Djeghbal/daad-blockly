@@ -1,0 +1,8 @@
+{
+  "require": {
+    "php": "^8.0"
+  },
+  "config": {
+    "process-timeout": 0
+  }
+}
