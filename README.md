@@ -19,17 +19,9 @@
 - **تنفيذ فوري:** تشغيل الأكواد البرمجية مباشرة من المتصفح واستعراض المخرجات لحظياً.
 
 ## لقطات الشاشة
-### شاشة البداية
-<img src="screenshots/start.png" alt="start">
 
 ### واجهة التطبيق الرئيسية (مساحة العمل)
 <img src="screenshots/app.png" alt="start">
-
-### تسجيل الدخول
-<img src="screenshots/login.png" alt="start">
-
-### إنشاء حساب جديد
-<img src="screenshots/register.png" alt="start">
 
 
 ## كيف يعمل التطبيق؟
