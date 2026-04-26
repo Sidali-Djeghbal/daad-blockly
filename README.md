@@ -55,8 +55,8 @@ daad/
 │   └── js/
 │       ├── app.js           # تطبيق العميل
 │       ├── blocks/
-│       │   ├── control.js    # контрольные блоки (if, while, for)
-│       │   ├── functions.js  # 定义 блоки функций
+│       │   ├── control.js    # التحكم (if, while, for)
+│       │   ├── functions.js  # الدوال
 │       │   ├── io.js         # إدخال وإخراج
 │       │   ├── lists.js      # قوائم
 │       │   ├── logic.js      # منطق
