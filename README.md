@@ -1,3 +1,5 @@
+<div dir="rtl" align="right">
+
 # ضاد بلوكلي - تطبيق برمجة بصرية
 
 تطبيق ويب للبرمجة البصرية بلغة ضاد العربية باستخدام Google Blockly.
@@ -22,52 +24,14 @@
 ---
 
 ## المتطلبات
+<div dir="ltr" align="left">
 
 - **XAMPP** (Apache + MySQL)
 - **PHP 8.1+** مع:
   - pdo
   - pdo_mysql
   - gd
-
----
-
-## هيكل المشروع
-
-```
-daad/
-├── _bootstrap.php      # ملف الإعداد والاتصال بقاعدة البيانات
-├── index.php          # الصفحة الرئيسية
-├── app.php           # محرر البرمجة البصرية
-├── login.php         # تسجيل الدخول
-├── register.php      # تسجيل مستخدم جديد
-├── logout.php        # تسجيل الخروج
-├── api.php           # واجهة برمجة التطبيقات API
-├── setup.php         # إنشاء قاعدة البيانات
-├── bin/
-│   └── daad          # مترجم لغة ضاد (CLI)
-├── assets/
-│   ├── css/
-│   │   ├── app.css   # تنسيقات المحرر
-│   │   └── auth.css  # تنسيقات المصادقة
-│   ├── img/
-│   │   ├── logo.svg
-│   │   └── logo-dark.svg
-│   └── js/
-│       ├── app.js           # تطبيق العميل
-│       ├── blocks/
-│       │   ├── control.js    # التحكم (if, while, for)
-│       │   ├── functions.js  # الدوال
-│       │   ├── io.js         # إدخال وإخراج
-│       │   ├── lists.js      # قوائم
-│       │   ├── logic.js      # منطق
-│       │   ├── math.js       # رياضيات
-│       │   ├── toolbox.js    # صندوق الأدوات
-│       │   └── variables.js  # متغيرات
-│       └── generator/
-│           └── index.js      # مولد الكود
-└── README.md
-```
-
+</div>
 ---
 
 ## التثبيت
@@ -82,15 +46,15 @@ sudo cp -r . /opt/lampp/htdocs/daad
 # 3. تشغيل ملف الإعداد (مرة واحدة)
 sudo /opt/lampp/bin/php /opt/lampp/htdocs/daad/setup.php
 ```
-
 ---
 
 ## التشغيل
+<div dir="ltr" align="left">
 
 ```
 http://localhost/daad/
 ```
-
+</div>
 ---
 
 ## الكتل الممكنة
@@ -147,6 +111,15 @@ http://localhost/daad/
 
 ---
 
+## المساهمة
+
+نرحب بمساهماتكم! سواء كانت إصلاح أخطاء، إضافة ميزات جديدة، أو تحسين التوثيق. لا تتردد في فتح   (Pull Request) أو الإبلاغ عن مشكلة (Issue).
+
 ## الرخصة
 
-Apache 2.0
+هذا المشروع مرخص بموجب رخصة Apache-2.0 - راجع ملف [LICENSE](LICENSE) للتفاصيل.
+
+---
+
+
+</div>
