@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <div class="auth-footer">
         <p>ليس لديك حساب؟</p>
-        <a href="/daad/register.php" class="link-btn">أنشئ حساب جديد</a>
+        <a href="/register.php" class="link-btn">أنشئ حساب جديد</a>
       </div>
     </div>
   </div>
