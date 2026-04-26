@@ -73,7 +73,7 @@
         setStatus('تم');
         return;
       }
-      post('/daad/api.php?action=save', { json: lastJson })
+      post('api.php?action=save', { json: lastJson })
         .then(function() { setStatus('تم'); })
         .catch(function(e) {
           console.error('Save failed:', e);
@@ -102,7 +102,7 @@
     outBox.textContent = '';
     if (errorIndicator) errorIndicator.style.display = 'none';
 
-    post('/daad/api.php?action=run', { code: codeBox.value })
+    post('api.php?action=run', { code: codeBox.value })
       .then(function(r) {
         outBox.textContent = r.stdout;
         if (r.stderr) showError(r.stderr);
