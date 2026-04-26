@@ -2,11 +2,11 @@
 require __DIR__ . '/_bootstrap.php';
 
 try {
-    $host = getenv('DB_HOST') ?: 'localhost';
-    $port = getenv('DB_PORT') ?: '3306';
-    $user = getenv('DB_USER') ?: 'root';
-    $pass = getenv('DB_PASS') ?: '';
-    $name = getenv('DB_NAME') ?: 'daad_db';
+    $host = getenv('MYSQL_HOST') ?: getenv('DB_HOST') ?: 'localhost';
+    $port = getenv('MYSQL_PORT') ?: getenv('DB_PORT') ?: '3306';
+    $user = getenv('MYSQL_USER') ?: getenv('DB_USER') ?: 'root';
+    $pass = getenv('MYSQL_PASSWORD') ?: getenv('DB_PASS') ?: '';
+    $name = getenv('MYSQL_DATABASE') ?: getenv('DB_NAME') ?: 'railway';
     
     $pdo = new PDO("mysql:host=$host;port=$port", $user, $pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
