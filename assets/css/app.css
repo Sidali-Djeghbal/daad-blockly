@@ -1,0 +1,185 @@
+:root {
+  --bg: #fff;
+  --card: #f8fafc;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --primary: #21ad77;
+  --primary-hover: #1a9668;
+  --secondary: #f1f5f9;
+  --danger: #dc2626;
+  --danger-bg: #fef2f2;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Layout */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.user-info { display: flex; align-items: center; gap: 12px; }
+
+.main-container {
+  display: flex;
+  height: calc(100vh - 52px);
+  direction: rtl;
+}
+
+.blockly-section {
+  flex: 1;
+  min-width: 300px;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  position: relative;
+}
+
+#blocklyDiv { position: absolute; inset: 0; }
+
+.workspace-section {
+  width: 500px;
+  min-width: 300px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg);
+}
+
+.workspace-header h2 { margin: 0; font-size: 16px; }
+
+.workspace-split {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+}
+
+.code-area, .output-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.code-area h3, .output-area h3 {
+  margin: 0 0 6px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Forms */
+textarea, .output {
+  flex: 1;
+  resize: none;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  direction: rtl;
+  text-align: right;
+}
+
+.output { white-space: pre-wrap; overflow-y: auto; }
+
+/* Buttons */
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.btn:hover { background: var(--primary-hover); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-secondary {
+  background: var(--secondary);
+  color: var(--text);
+}
+
+.btn-secondary:hover { background: #e2e8f0; }
+
+/* Utilities */
+.error-indicator {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.muted { color: var(--muted); }
+.row { display: flex; gap: 12px; align-items: center; }
+.space-between { justify-content: space-between; }
+
+/* Blockly RTL Fixes */
+#blocklyDiv .blocklyToolboxDiv {
+  left: auto;
+  right: 0;
+  background: var(--card);
+}
+
+#blocklyDiv .blocklyToolboxCategory { direction: rtl; }
+
+#blocklyDiv text {
+  direction: rtl !important;
+  unicode-bidi: embed !important;
+}
+
+#blocklyDiv .blocklyEditableText text,
+#blocklyDiv text.fieldTextInput,
+#blocklyDiv text.shadowTextInput {
+  text-anchor: end !important;
+}
+
+#blocklyDiv .blocklyText[aria-label*="("] text:first-child,
+#blocklyDiv text:not([aria-label]) {
+  text-anchor:end;
+}
+
+/* Fix brackets and braces in RTL */
+#blocklyDiv svg .blocklyText {
+  direction: rtl;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-container { flex-direction: column; }
+  .blockly-section {
+    height: 50vh;
+    min-height: 300px;
+    border-left: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .workspace-section {
+    width: 100%;
+    min-width: auto;
+    flex: 1;
+  }
+}
+
