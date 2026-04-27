@@ -138,7 +138,7 @@ http://localhost/daad/
 ## الشكر موصول
 
 - **لغة ضاد:** الشكر موصول لمنظمة [daadLang](https://github.com/daadLang) على تطوير لغة البرمجة العربية.
-- **مكتبة Blockly:** يعتمد هذا المشروع على المكتبة الرائعة [Google Blockly](https://developers.google.com/blockly).
+- **مكتبة Blockly:** يعتمد هذا المشروع على المكتبة مفتوحة المصدر [Google Blockly](https://developers.google.com/blockly).
 
 ## المساهمة
 
