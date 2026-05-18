@@ -1,0 +1,53 @@
+# Environment and credentials
+.env
+.env.local
+.env.*.local
+
+# Operating system
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+logs/
+
+# Node (in case frontend build tools are added)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Composer (vendor folder if dependencies are installed locally)
+vendor/
+composer.lock
+
+# Docker volumes (local data, not part of repo)
+daad_db_data/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+.DS_Store
+
+# Build artifacts (if any)
+dist/
+build/
+
+# System files
+.gitkeep

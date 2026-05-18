@@ -48,7 +48,7 @@ $workspaceJson = loadWorkspace((int) $user['id']);
     </section>
   </main>
 
-  <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+  <script src="assets/vendor/blockly/blockly.min.js"></script>
   <script src="assets/js/blocks/io.js"></script>
   <script src="assets/js/blocks/math.js"></script>
   <script src="assets/js/blocks/variables.js"></script>
