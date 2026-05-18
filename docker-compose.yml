@@ -1,0 +1,45 @@
+services:
+  web:
+    build:
+      context: .
+    container_name: daad_web
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST:?MYSQL_HOST required}
+      MYSQL_PORT: ${MYSQL_PORT:?MYSQL_PORT required}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:?MYSQL_DATABASE required}
+      MYSQL_USER: ${MYSQL_USER:?MYSQL_USER required}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD required}
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.4
+    container_name: daad_db
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:?MYSQL_DATABASE required}
+      MYSQL_USER: ${MYSQL_USER:?MYSQL_USER required}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD required}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD required}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysqladmin ping -h 127.0.0.1 -uroot",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+    volumes:
+      - daad_db_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  daad_db_data:

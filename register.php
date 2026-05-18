@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             db()->prepare('INSERT INTO users (username, password_hash) VALUES (?, ?)')->execute([$username, password_hash($password, PASSWORD_DEFAULT)]);
             $id = (int) db()->lastInsertId();
             loginUser($id);
-            redirect('app.php');
+            redirect('/app.php');
         } catch (PDOException $e) {
             $errors[] = 'الاسم مستخدم';
         }

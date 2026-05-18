@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/_bootstrap.php';
 $user = currentUser();
-if ($user) redirect('app.php');
+if ($user) redirect('/app.php');
 ?>
 <!doctype html>
 <html lang="ar" dir="rtl">
@@ -25,7 +25,7 @@ if ($user) redirect('app.php');
         ابدأ رحلتك في البرمجة بسهولة مع لغة ضاد
       </p>
       <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
-        <a href="login.php" class="link-btn" style="text-align: center;">تسجيل دخول</a>
+        <a href="<?=h(appUrl('/login.php'))?>" class="link-btn" style="text-align: center;">تسجيل دخول</a>
       </div>
     </div>
   </div>

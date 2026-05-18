@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/_bootstrap.php';
 $user = currentUser();
-if ($user) redirect('app.php');
+if ($user) redirect('/app.php');
 
 $errors = [];
 $username = '';
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'بيانات الدخول غير صحيحة';
         } else {
             loginUser((int) $row['id']);
-            redirect('app.php');
+            redirect('/app.php');
         }
     }
 }
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <div class="auth-footer">
         <p>ليس لديك حساب؟</p>
-        <a href="/register.php" class="link-btn">أنشئ حساب جديد</a>
+        <a href="<?=h(appUrl('/register.php'))?>" class="link-btn">أنشئ حساب جديد</a>
       </div>
     </div>
   </div>
