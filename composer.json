@@ -1,8 +1,0 @@
-{
-  "config": {
-    "process-timeout": 0
-  },
-  "require": {
-    "ext-pdo_mysql": "*"
-  }
-}

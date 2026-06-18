@@ -1,8 +1,3 @@
-<?php
-require __DIR__ . '/_bootstrap.php';
-$user = requireLogin();
-$workspaceJson = loadWorkspace((int) $user['id']);
-?>
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -15,12 +10,10 @@ $workspaceJson = loadWorkspace((int) $user['id']);
   <header class="topbar">
     <strong>لغة ضاد</strong>
     <div class="user-info">
-      <span class="muted"><?=h($user['username'])?></span>
-      <form method="post" action="logout.php">
-        <input type="hidden" name="csrf" value="<?=csrf()?>" />
-        <input type="hidden" name="workspace_json" id="logoutData" value="" />
-        <button class="btn btn-secondary" type="submit">خروج</button>
-      </form>
+      <span class="muted" id="fileInfo"> workspace.json </span>
+      <button id="saveBtn" class="btn btn-secondary">حفظ</button>
+      <button id="saveAsBtn" class="btn btn-secondary">حفظ باسم</button>
+      <button id="openBtn" class="btn btn-secondary">فتح</button>
     </div>
   </header>
 
@@ -31,7 +24,7 @@ $workspaceJson = loadWorkspace((int) $user['id']);
     <section class="workspace-section">
       <div class="workspace-header row space-between">
         <h2>المحاكاة</h2>
-        <span id="saveStatus" class="muted">تم الحفظ</span>
+        <span id="saveStatus" class="muted"></span>
       </div>
       <button id="runBtn" class="btn">تشغيل</button>
       <div id="errorIndicator" class="error-indicator" style="display:none"></div>
@@ -48,17 +41,12 @@ $workspaceJson = loadWorkspace((int) $user['id']);
     </section>
   </main>
 
-  <script src="assets/vendor/blockly/blockly.min.js"></script>
-  <script src="assets/js/blocks/io.js"></script>
-  <script src="assets/js/blocks/math.js"></script>
-  <script src="assets/js/blocks/variables.js"></script>
-  <script src="assets/js/blocks/logic.js"></script>
-  <script src="assets/js/blocks/lists.js"></script>
-  <script src="assets/js/blocks/control.js"></script>
-  <script src="assets/js/blocks/functions.js"></script>
+  <script src="node_modules/blockly/blockly_compressed.js"></script>
+  <script src="node_modules/blockly/msg/ar.js"></script>
+  <script src="node_modules/blockly/blocks_compressed.js"></script>
+  <script src="assets/js/blocks/custom.js"></script>
   <script src="assets/js/blocks/toolbox.js"></script>
   <script src="assets/js/generator/index.js"></script>
-  <script>window.DAAD_APP={csrf:'<?=csrf()?>',json:<?=json_encode($workspaceJson,JSON_UNESCAPED_UNICODE)?>};</script>
-  <script src="assets/js/app.js"></script>
+  <script src="renderer.js"></script>
 </body>
 </html>
