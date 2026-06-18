@@ -1,0 +1,14 @@
+{
+  "name": "daad-blockly",
+  "version": "1.0.0",
+  "description": "لغة ضاد - Desktop Blockly App",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "dependencies": {
+    "blockly": "^13.0.0",
+    "electron": "^42.4.1"
+  }
+}
