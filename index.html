@@ -3,39 +3,48 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#21ad77" />
+  <meta name="description" content="لغة ضاد - بيئة تعلم برمجة بصرية بلغة عربية" />
   <title>لغة ضاد</title>
   <link rel="stylesheet" href="assets/css/app.css" />
 </head>
 <body>
-  <header class="topbar">
+  <header class="topbar" role="banner">
     <strong>لغة ضاد</strong>
     <div class="user-info">
       <span class="muted" id="fileInfo"> workspace.json </span>
-      <button id="saveBtn" class="btn btn-secondary">حفظ</button>
-      <button id="saveAsBtn" class="btn btn-secondary">حفظ باسم</button>
-      <button id="openBtn" class="btn btn-secondary">فتح</button>
+      <button id="saveBtn" class="btn btn-secondary" type="button">حفظ</button>
+      <button id="saveAsBtn" class="btn btn-secondary" type="button">حفظ باسم</button>
+      <button id="openBtn" class="btn btn-secondary" type="button">فتح</button>
     </div>
   </header>
 
   <main class="main-container">
-    <section class="blockly-section">
-      <div id="blocklyDiv"></div>
+    <section class="blockly-section" aria-label="منطقة البرمجة البصرية">
+      <div id="blocklyDiv" role="application"></div>
     </section>
-    <section class="workspace-section">
+    <section class="workspace-section" aria-label="منطقة التشغيل">
       <div class="workspace-header row space-between">
         <h2>المحاكاة</h2>
         <span id="saveStatus" class="muted"></span>
       </div>
-      <button id="runBtn" class="btn">تشغيل</button>
-      <div id="errorIndicator" class="error-indicator" style="display:none"></div>
+      <button id="runBtn" class="btn" type="button">تشغيل</button>
+      <div id="errorIndicator" class="error-indicator" style="display:none" role="alert"></div>
       <div class="workspace-split">
         <div class="code-area">
           <h3>كود</h3>
-          <textarea id="codeBox"></textarea>
+          <textarea id="codeBox" dir="ltr" spellcheck="false"></textarea>
         </div>
         <div class="output-area">
           <h3>مخرجات</h3>
           <pre id="outBox" class="output"></pre>
+        </div>
+        <div class="input-area" id="inputArea">
+          <h3>إدخال</h3>
+          <div class="input-row">
+            <textarea id="inputBox" dir="ltr" spellcheck="false" placeholder="اكتب المدخلات هنا..."></textarea>
+            <button id="sendInputBtn" class="btn btn-small btn-secondary" type="button" disabled>إرسال</button>
+          </div>
         </div>
       </div>
     </section>

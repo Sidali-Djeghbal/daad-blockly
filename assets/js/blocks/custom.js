@@ -7,34 +7,11 @@ Blockly.Blocks['daad_str'] = {
   }
 };
 
-Blockly.Blocks['daad_int'] = {
-  init: function() {
-    this.appendDummyInput().appendField('عدد');
-    this.appendValueInput('VALUE');
-    this.setOutput(true, 'Number');
-    this.setColour(230);
-  }
-};
-
 Blockly.Blocks['daad_float'] = {
   init: function() {
     this.appendDummyInput().appendField('عشري');
     this.appendValueInput('VALUE');
     this.setOutput(true, 'Number');
-    this.setColour(230);
-  }
-};
-
-Blockly.Blocks['daad_range'] = {
-  init: function() {
-    this.appendDummyInput()
-      .appendField('نطاق')
-      .appendField(new Blockly.FieldNumber(0), 'START')
-      .appendField(':')
-      .appendField(new Blockly.FieldNumber(10), 'STOP')
-      .appendField(':')
-      .appendField(new Blockly.FieldNumber(1), 'STEP');
-    this.setOutput(true, 'Array');
     this.setColour(230);
   }
 };
@@ -58,19 +35,6 @@ Blockly.Blocks['daad_list_get'] = {
   }
 };
 
-Blockly.Blocks['daad_list_set'] = {
-  init: function() {
-    this.appendValueInput('INDEX').setCheck('Number');
-    this.appendDummyInput().appendField('][');
-    this.appendValueInput('LIST');
-    this.appendDummyInput().appendField('=');
-    this.appendValueInput('VALUE');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(260);
-  }
-};
-
 Blockly.Blocks['daad_dict'] = {
   init: function() {
     this.appendDummyInput()
@@ -78,14 +42,6 @@ Blockly.Blocks['daad_dict'] = {
       .appendField(new Blockly.FieldTextInput('{}', function(v) { return v || '{}'; }), 'ITEMS');
     this.setOutput(true, null);
     this.setColour(300);
-  }
-};
-
-Blockly.Blocks['daad_null'] = {
-  init: function() {
-    this.appendDummyInput().appendField('عدم');
-    this.setOutput(true, null);
-    this.setColour(210);
   }
 };
 
@@ -138,8 +94,7 @@ Blockly.Blocks['daad_membership'] = {
     this.appendValueInput('ITEM');
     this.appendDummyInput()
       .appendField(new Blockly.FieldDropdown([
-        ['في', 'IN'],
-        ['ليس في', 'NOTIN']
+        ['في', 'IN']
       ]), 'OP');
     this.appendValueInput('LIST');
     this.setInputsInline(true);
@@ -173,29 +128,6 @@ Blockly.Blocks['daad_input'] = {
     this.appendValueInput('PROMPT').appendField('ادخل');
     this.setOutput(true, 'String');
     this.setColour(160);
-  }
-};
-
-Blockly.Blocks['daad_append'] = {
-  init: function() {
-    this.appendValueInput('LIST');
-    this.appendDummyInput().appendField('.اضف(');
-    this.appendValueInput('VALUE');
-    this.appendDummyInput().appendField(')');
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(260);
-  }
-};
-
-Blockly.Blocks['daad_pop'] = {
-  init: function() {
-    this.appendValueInput('LIST');
-    this.appendDummyInput().appendField('.احذف()');
-    this.setInputsInline(true);
-    this.setOutput(true, null);
-    this.setColour(260);
   }
 };
 
@@ -268,5 +200,57 @@ Blockly.Blocks['daad_instantiate'] = {
       .appendField(')');
     this.setOutput(true, null);
     this.setColour(300);
+  }
+};
+
+Blockly.Blocks['daad_bitwise'] = {
+  init: function() {
+    this.appendValueInput('A');
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldDropdown([
+        ['&', 'AND'],
+        ['|', 'OR'],
+        ['^', 'XOR'],
+        ['<<', 'LSHIFT'],
+        ['>>', 'RSHIFT']
+      ]), 'OP');
+    this.appendValueInput('B');
+    this.setInputsInline(true);
+    this.setOutput(true, 'Number');
+    this.setColour(230);
+  }
+};
+
+Blockly.Blocks['daad_bitwise_not'] = {
+  init: function() {
+    this.appendDummyInput().appendField('~');
+    this.appendValueInput('VALUE');
+    this.setInputsInline(true);
+    this.setOutput(true, 'Number');
+    this.setColour(230);
+  }
+};
+
+Blockly.Blocks['daad_import'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField('استورد')
+      .appendField(new Blockly.FieldTextInput('math'), 'MODULE');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
+  }
+};
+
+Blockly.Blocks['daad_import_from'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField('من')
+      .appendField(new Blockly.FieldTextInput('math'), 'MODULE')
+      .appendField('استورد')
+      .appendField(new Blockly.FieldTextInput('جذر'), 'NAME');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(210);
   }
 };

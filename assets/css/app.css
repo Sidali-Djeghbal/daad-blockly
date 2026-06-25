@@ -23,7 +23,6 @@ body {
 a { color: var(--primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* Layout */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -71,20 +70,22 @@ a:hover { text-decoration: underline; }
   min-height: 0;
 }
 
-.code-area, .output-area {
-  flex: 1;
+.code-area, .output-area, .input-area {
   display: flex;
   flex-direction: column;
   min-height: 0;
 }
 
-.code-area h3, .output-area h3 {
+.code-area { flex: 1; }
+.output-area { flex: 1; }
+.input-area { flex: 0 0 auto; max-height: 80px; }
+
+.code-area h3, .output-area h3, .input-area h3 {
   margin: 0 0 6px 0;
   font-size: 13px;
   color: var(--muted);
 }
 
-/* Forms */
 textarea, .output {
   flex: 1;
   resize: none;
@@ -98,9 +99,10 @@ textarea, .output {
   text-align: right;
 }
 
+#inputBox { flex: none; min-height: 40px; max-height: 60px; resize: vertical; }
+
 .output { white-space: pre-wrap; overflow-y: auto; }
 
-/* Buttons */
 .btn {
   padding: 10px 20px;
   border-radius: 8px;
@@ -123,7 +125,32 @@ textarea, .output {
 
 .btn-secondary:hover { background: #e2e8f0; }
 
-/* Utilities */
+.btn-danger {
+  background: var(--danger);
+}
+.btn-danger:hover { background: #b91c1c; }
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+.input-row textarea { flex: 1; }
+.input-row .btn { white-space: nowrap; }
+
+@keyframes btn-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(33, 173, 119, 0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(33, 173, 119, 0); }
+}
+.btn-send-active {
+  animation: btn-pulse 1.5s ease-in-out infinite;
+}
+
 .error-indicator {
   background: var(--danger-bg);
   border: 1px solid var(--danger);
@@ -137,37 +164,6 @@ textarea, .output {
 .row { display: flex; gap: 12px; align-items: center; }
 .space-between { justify-content: space-between; }
 
-/* Blockly RTL Fixes */
-#blocklyDiv .blocklyToolboxDiv {
-  left: auto;
-  right: 0;
-  background: var(--card);
-}
-
-#blocklyDiv .blocklyToolboxCategory { direction: rtl; }
-
-#blocklyDiv text {
-  direction: rtl !important;
-  unicode-bidi: embed !important;
-}
-
-#blocklyDiv .blocklyEditableText text,
-#blocklyDiv text.fieldTextInput,
-#blocklyDiv text.shadowTextInput {
-  text-anchor: end !important;
-}
-
-#blocklyDiv .blocklyText[aria-label*="("] text:first-child,
-#blocklyDiv text:not([aria-label]) {
-  text-anchor:end;
-}
-
-/* Fix brackets and braces in RTL */
-#blocklyDiv svg .blocklyText {
-  direction: rtl;
-}
-
-/* Responsive */
 @media (max-width: 768px) {
   .main-container { flex-direction: column; }
   .blockly-section {
@@ -182,4 +178,3 @@ textarea, .output {
     flex: 1;
   }
 }
-
