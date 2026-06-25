@@ -251,8 +251,7 @@
   function applyBlocklyRTLFix() {
     var style = document.createElement('style');
     style.textContent = [
-      '#blocklyDiv .blocklyToolboxDiv { left: auto; right: 0; }',
-      '#blocklyDiv .blocklyToolboxCategory { direction: rtl; }',
+      '#blocklyDiv .blocklyToolbox { direction: rtl; }',
       '#blocklyDiv .fieldInput > input { direction: ltr; text-align: left; }'
     ].join('\n');
     var existing = document.getElementById('blockly-rtl-fix');
@@ -262,10 +261,27 @@
   }
 
   function init() {
+    var daadTheme = Blockly.Theme.defineTheme('daad', {
+      componentStyles: {
+        toolboxBackgroundColour: '#f8fafc',
+        toolboxForegroundColour: '#1e293b',
+        flyoutBackgroundColour: '#fafafa',
+        flyoutForegroundColour: '#1e293b',
+        flyoutOpacity: 1,
+        scrollbarColour: '#cbd5e1',
+        scrollbarOpacity: 0.4,
+      },
+      fontStyle: {
+        family: 'system-ui, -apple-system, sans-serif',
+        weight: '500',
+      },
+    });
+
     workspace = Blockly.inject('blocklyDiv', {
       toolbox: window.DAAD_TOOLBOX,
       rtl: true,
-      trashcan: true
+      trashcan: true,
+      theme: daadTheme,
     });
 
     setTimeout(applyBlocklyRTLFix, 300);

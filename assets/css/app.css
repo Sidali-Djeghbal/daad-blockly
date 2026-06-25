@@ -18,6 +18,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: system-ui, -apple-system, sans-serif;
+  overflow: hidden;
 }
 
 a { color: var(--primary); text-decoration: none; }
@@ -46,6 +47,7 @@ a:hover { text-decoration: underline; }
   background: var(--card);
   border-left: 1px solid var(--border);
   position: relative;
+
 }
 
 #blocklyDiv { position: absolute; inset: 0; }
@@ -178,3 +180,113 @@ textarea, .output {
     flex: 1;
   }
 }
+
+/* ---- Modern Toolbox Styling ---- */
+
+/* Toolbox sidebar container */
+.blocklyToolbox {
+  background: #f8fafc !important;
+  padding: 8px 0 !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #e2e8f0 transparent;
+  font-family: system-ui, -apple-system, sans-serif;
+  
+}
+
+.blocklyToolbox::-webkit-scrollbar {
+  width: 1px;
+}
+.blocklyToolbox::-webkit-scrollbar-track {
+  background: transparent;
+}
+.blocklyToolbox::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 4px;
+}
+.blocklyToolbox::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* Category container - spacing between items */
+.blocklyToolboxCategoryContainer {
+  padding: 3px 8px !important;
+}
+
+/* Category row - Default state */
+.blocklyToolboxCategory {
+  height: auto !important;
+  min-height: 44px !important;
+  line-height: 44px !important;
+  margin-bottom: 2px !important;
+  padding: 0 14px !important;
+  border: 2px solid transparent;
+  font-family: system-ui, -apple-system, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: var(--text) !important;
+  transition: all 0.15s ease-in-out !important;
+  cursor: pointer;
+}
+
+/* Hover state - subtle neutral background dimming (non-selected only) */
+.blocklyToolboxCategory:not(.blocklyToolboxSelected):hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Selected state - category colour background, orange border, white text */
+.blocklyToolboxSelected {
+  border-color: orange;
+  border-width: 2px;
+  border-style: solid;
+  font-weight: 600 !important;
+}
+
+/* Separator between categories */
+.blocklyTreeSeparator {
+  display: none !important;
+}
+
+/* Category label - Default state */
+.blocklyToolboxCategoryLabel {
+  font-family: system-ui, -apple-system, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+  padding: 0 8px 0 0 !important;
+  vertical-align: middle !important;
+  line-height: 44px !important;
+}
+
+/* Selected state label - white text */
+.blocklyToolboxSelected .blocklyToolboxCategoryLabel {
+  color: #fff !important;
+  font-weight: 600 !important;
+}
+
+/* Hide category icons */
+.blocklyToolboxCategoryIcon {
+  display: none !important;
+}
+
+/* ---- Flyout Styling ---- */
+.blocklyFlyout {
+  background: #fafafa !important;
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.08) !important;
+  border-radius: 0 !important;
+}
+
+/* Block spacing in flyout */
+.blocklyFlyout .blocklyBlockCanvas {
+  padding: 12px 8px !important;
+}
+
+.blocklyFlyout .blocklyDraggable {
+  margin-bottom: 14px !important;
+}
+
+/* Flyout scrollbar */
+.blocklyFlyout .blocklyScrollbarVertical {
+  width: 4px !important;
+}
+
