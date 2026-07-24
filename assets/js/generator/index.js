@@ -42,7 +42,8 @@ Daad.forBlock['text'] = function(block) {
 };
 
 Daad.forBlock['text_print'] = function(block, generator) {
-  return 'اطبع(' + (generator.valueToCode(block, 'TEXT', Daad.ORDER_ATOMIC) || q('')) + ')\n';
+  var text = generator.valueToCode(block, 'TEXT', Daad.ORDER_ATOMIC) || q('');
+  return 'اطبع(' + text + ' + "\\n")\n';
 };
 
 Daad.forBlock['text_length'] = function(block, generator) {
