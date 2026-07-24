@@ -16,6 +16,16 @@
       <button id="saveBtn" class="btn btn-secondary" type="button">حفظ</button>
       <button id="saveAsBtn" class="btn btn-secondary" type="button">حفظ باسم</button>
       <button id="openBtn" class="btn btn-secondary" type="button">فتح</button>
+      <div class="dropdown" id="examplesDropdown">
+        <button id="examplesBtn" class="btn btn-secondary" type="button">أمثلة ▼</button>
+        <div class="dropdown-menu" id="examplesMenu" role="menu">
+          <button class="dropdown-item" data-example="hello">مرحباً بالعالم</button>
+          <button class="dropdown-item" data-example="input">المدخلات</button>
+          <button class="dropdown-item" data-example="grades">الدرجات</button>
+          <button class="dropdown-item" data-example="counting">العد</button>
+          <button class="dropdown-item" data-example="lists">القوائم</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -28,7 +38,13 @@
         <h2>المحاكاة</h2>
         <span id="saveStatus" class="muted"></span>
       </div>
-      <button id="runBtn" class="btn" type="button">تشغيل</button>
+      <div class="row">
+        <button id="runBtn" class="btn" type="button">تشغيل</button>
+        <div class="btn-group" role="group" aria-label="تراجع وإعادة">
+          <button id="undoBtn" class="btn btn-secondary btn-small" type="button" title="تراجع (Ctrl+Z)">↩ تراجع</button>
+          <button id="redoBtn" class="btn btn-secondary btn-small" type="button" title="إعادة (Ctrl+Y)">↪ إعادة</button>
+        </div>
+      </div>
       <div id="errorIndicator" class="error-indicator" style="display:none" role="alert"></div>
       <div class="workspace-split">
         <div class="code-area">
@@ -56,6 +72,7 @@
   <script src="assets/js/blocks/custom.js"></script>
   <script src="assets/js/blocks/toolbox.js"></script>
   <script src="assets/js/generator/index.js"></script>
+  <script src="assets/js/examples.js"></script>
   <script src="renderer.js"></script>
 </body>
 </html>

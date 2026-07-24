@@ -4,6 +4,7 @@ Blockly.Blocks['daad_str'] = {
     this.appendValueInput('VALUE');
     this.setOutput(true, 'String');
     this.setColour(160);
+    this.setTooltip('يحول القيمة المدخلة إلى نص (String). استخدمه لتأكيد أن القيمة نصية.');
   }
 };
 
@@ -13,6 +14,7 @@ Blockly.Blocks['daad_float'] = {
     this.appendValueInput('VALUE');
     this.setOutput(true, 'Number');
     this.setColour(230);
+    this.setTooltip('يحول القيمة إلى عدد عشري (float). مناسب للأرقام ذات الفاصلة.');
   }
 };
 
@@ -22,6 +24,7 @@ Blockly.Blocks['daad_type'] = {
     this.appendValueInput('VALUE');
     this.setOutput(true, 'String');
     this.setColour(210);
+    this.setTooltip('يعطي نوع القيمة المدخلة (نص، عدد، قائمة...) ككلمة.');
   }
 };
 
@@ -32,6 +35,7 @@ Blockly.Blocks['daad_list_get'] = {
     this.appendValueInput('LIST');
     this.setOutput(true, null);
     this.setColour(260);
+    this.setTooltip('يأخذ عنصراً من قائمة باستخدام رقم الفهرس. العد يبدأ من 0.');
   }
 };
 
@@ -42,6 +46,7 @@ Blockly.Blocks['daad_dict'] = {
       .appendField(new Blockly.FieldTextInput('{}', function(v) { return v || '{}'; }), 'ITEMS');
     this.setOutput(true, null);
     this.setColour(300);
+    this.setTooltip('ينشئ قاموساً (مفتاح: قيمة). اكتب المحتوى بين {} مثل: {"اسم": "أحمد"}');
   }
 };
 
@@ -53,6 +58,7 @@ Blockly.Blocks['daad_tuple'] = {
       .appendField(')');
     this.setOutput(true, 'Array');
     this.setColour(260);
+    this.setTooltip('ينشئ مجموعة (tuple) ثابتة. لا يمكن تغيير محتوياتها بعد إنشائها.');
   }
 };
 
@@ -64,6 +70,7 @@ Blockly.Blocks['daad_power'] = {
     this.setInputsInline(true);
     this.setOutput(true, 'Number');
     this.setColour(230);
+    this.setTooltip('يرفع الرقم الأول إلى قوة الرقم الثاني. مثلاً: 2 ** 3 = 8');
   }
 };
 
@@ -75,6 +82,7 @@ Blockly.Blocks['daad_modulo'] = {
     this.setInputsInline(true);
     this.setOutput(true, 'Number');
     this.setColour(230);
+    this.setTooltip('يعطي باقي قسمة الرقم الأول على الثاني. مفيد لمعرفة إذا كان الرقم زوجياً أو فردياً.');
   }
 };
 
@@ -86,6 +94,7 @@ Blockly.Blocks['daad_floor_divide'] = {
     this.setInputsInline(true);
     this.setOutput(true, 'Number');
     this.setColour(230);
+    this.setTooltip('يقسم الرقم الأول على الثاني مع تجاهل الباقي (قسمة صحيحة). مثلاً: 7 // 2 = 3');
   }
 };
 
@@ -100,6 +109,7 @@ Blockly.Blocks['daad_membership'] = {
     this.setInputsInline(true);
     this.setOutput(true, 'Boolean');
     this.setColour(210);
+    this.setTooltip('يتحقق إذا كان العنصر موجوداً داخل قائمة. يعطي صحيح أو خطأ.');
   }
 };
 
@@ -120,6 +130,7 @@ Blockly.Blocks['daad_augmented_assign'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
+    this.setTooltip('تغيير قيمة متغير باستخدام عملية حسابية. مثلاً: س += 5 تعني س = س + 5');
   }
 };
 
@@ -128,6 +139,7 @@ Blockly.Blocks['daad_input'] = {
     this.appendValueInput('PROMPT').appendField('ادخل');
     this.setOutput(true, 'String');
     this.setColour(160);
+    this.setTooltip('يطلب من المستخدم إدخال نص. يمكن إضافة رسالة توضيحية في الحقل المتصل به.');
   }
 };
 
@@ -138,6 +150,7 @@ Blockly.Blocks['daad_class'] = {
       .appendField(new Blockly.FieldTextInput('MyClass'), 'NAME');
     this.appendStatementInput('BODY');
     this.setColour(300);
+    this.setTooltip('يعرف صنفاً (class) جديداً. داخل الصنف يمكن إضافة دوال (طرق) ومتغيرات.');
   }
 };
 
@@ -153,6 +166,7 @@ Blockly.Blocks['daad_method'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(300);
+    this.setTooltip('يعرف دالة (طريقة) داخل صنف. استخدم "ذاتي" للإشارة إلى الكائن الحالي.');
   }
 };
 
@@ -161,6 +175,7 @@ Blockly.Blocks['daad_self'] = {
     this.appendDummyInput().appendField('ذاتي');
     this.setOutput(true, null);
     this.setColour(300);
+    this.setTooltip('يشير إلى الكائن الحالي داخل طرق (دوال) الصنف. مثلاً: ذاتي.اسم');
   }
 };
 
@@ -173,6 +188,7 @@ Blockly.Blocks['daad_attr_get'] = {
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(300);
+    this.setTooltip('يقرأ خاصية (attribute) من كائن. مثلاً: شخص.اسم');
   }
 };
 
@@ -188,6 +204,7 @@ Blockly.Blocks['daad_attr_set'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(300);
+    this.setTooltip('يغير قيمة خاصية في كائن. مثلاً: شخص.اسم = "أحمد"');
   }
 };
 
@@ -200,6 +217,7 @@ Blockly.Blocks['daad_instantiate'] = {
       .appendField(')');
     this.setOutput(true, null);
     this.setColour(300);
+    this.setTooltip('ينشئ كائناً جديداً من صنف. يمكن تمرير معاملات للباني (_بناء_).');
   }
 };
 
@@ -218,6 +236,7 @@ Blockly.Blocks['daad_bitwise'] = {
     this.setInputsInline(true);
     this.setOutput(true, 'Number');
     this.setColour(230);
+    this.setTooltip('عمليات بتية (bitwise) على الأرقام. تستخدم للتعامل مع البتات في الذاكرة.');
   }
 };
 
@@ -228,6 +247,7 @@ Blockly.Blocks['daad_bitwise_not'] = {
     this.setInputsInline(true);
     this.setOutput(true, 'Number');
     this.setColour(230);
+    this.setTooltip('عكس البتات (bitwise NOT). يقلب كل 0 إلى 1 وكل 1 إلى 0.');
   }
 };
 
@@ -239,6 +259,7 @@ Blockly.Blocks['daad_import'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(210);
+    this.setTooltip('يستورد مكتبة جاهزة لاستخدام دوالها. مثلاً: استورد الرياضيات');
   }
 };
 
@@ -252,5 +273,6 @@ Blockly.Blocks['daad_import_from'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(210);
+    this.setTooltip('يستورد دالة محددة من مكتبة. مثلاً: من الرياضيات استورد جذر');
   }
 };

@@ -11,6 +11,10 @@ Daad.init = function(workspace) {
   this.nameDB_.populateProcedures(workspace);
   this.isInitialized = true;
 };
+
+Daad.getVariableName = function(name) {
+  return name;
+};
 Daad.ORDER_UNARY = 1;
 Daad.ORDER_MULTIPLICATIVE = 2;
 Daad.ORDER_ADDITIVE = 3;

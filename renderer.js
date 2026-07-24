@@ -302,6 +302,57 @@
     if (saveBtn) saveBtn.addEventListener('click', doSave);
     if (saveAsBtn) saveAsBtn.addEventListener('click', doSaveAs);
     if (openBtn) openBtn.addEventListener('click', doOpen);
+
+    // Undo/Redo
+    var undoBtn = document.getElementById('undoBtn');
+    var redoBtn = document.getElementById('redoBtn');
+    if (undoBtn) undoBtn.addEventListener('click', function() { workspace.undo(false); });
+    if (redoBtn) redoBtn.addEventListener('click', function() { workspace.undo(true); });
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        workspace.undo(false);
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+        e.preventDefault();
+        workspace.undo(true);
+      }
+    });
+
+    // Examples dropdown
+    var examplesBtn = document.getElementById('examplesBtn');
+    var examplesMenu = document.getElementById('examplesMenu');
+    if (examplesBtn && examplesMenu) {
+      examplesBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        examplesMenu.classList.toggle('open');
+      });
+      examplesMenu.querySelectorAll('.dropdown-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+          var key = item.getAttribute('data-example');
+          if (confirm('تحميل المثال سيزيل الكتل الحالية. هل تتابع؟')) {
+            try {
+              workspace.clear();
+              var ex = window.DAAD_EXAMPLES_XML && window.DAAD_EXAMPLES_XML[key];
+              if (!ex) return;
+              var parser = new DOMParser();
+              var xmlDom = parser.parseFromString(ex.xml, 'text/xml');
+              var parseErr = xmlDom.querySelector('parsererror');
+              if (parseErr) { alert('خطأ في XML: ' + parseErr.textContent); return; }
+              Blockly.Xml.domToWorkspace(xmlDom.documentElement, workspace);
+              updateCode();
+            } catch (e) {
+              console.error('Example load error:', e);
+              alert('خطأ في تحميل المثال: ' + e.message);
+            }
+          }
+          examplesMenu.classList.remove('open');
+        });
+      });
+      document.addEventListener('click', function() {
+        examplesMenu.classList.remove('open');
+      });
+    }
   }
 
   if (document.readyState === 'loading') {

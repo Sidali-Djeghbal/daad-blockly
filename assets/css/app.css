@@ -166,6 +166,53 @@ textarea, .output {
 .row { display: flex; gap: 12px; align-items: center; }
 .space-between { justify-content: space-between; }
 
+/* Button group */
+.btn-group {
+  display: inline-flex;
+  gap: 4px;
+}
+.btn-group .btn {
+  border-radius: 6px;
+}
+
+/* Examples dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: auto;
+  z-index: 100;
+  min-width: 200px;
+  margin-top: 4px;
+  padding: 6px 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+.dropdown-menu.open { display: block; }
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  text-align: right;
+  cursor: pointer;
+  color: var(--text);
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.dropdown-item:hover { background: var(--secondary); }
+.dropdown-item:first-child { border-radius: 8px 8px 0 0; }
+.dropdown-item:last-child { border-radius: 0 0 8px 8px; }
+
 @media (max-width: 768px) {
   .main-container { flex-direction: column; }
   .blockly-section {
