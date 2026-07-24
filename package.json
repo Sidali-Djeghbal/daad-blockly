@@ -5,7 +5,46 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "electron . --dev"
+    "dev": "electron . --dev",
+    "dist": "electron-builder",
+    "dist:linux": "electron-builder --linux",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac"
+  },
+  "build": {
+    "appId": "com.daad.blockly",
+    "productName": "لغة ضاد",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "assets/**/*",
+      "bin/**/*",
+      "node_modules/**/*"
+    ],
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Education",
+      "icon": "assets/icons"
+    },
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icons/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": ["dmg"],
+      "icon": "assets/icons/512.png",
+      "category": "public.app-category.education"
+    }
   },
   "dependencies": {
     "blockly": "^13.0.0",
