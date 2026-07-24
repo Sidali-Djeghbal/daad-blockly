@@ -10,5 +10,8 @@
   "dependencies": {
     "blockly": "^13.0.0",
     "electron": "^42.4.1"
+  },
+  "devDependencies": {
+    "electron-builder": "^26.15.3"
   }
 }
