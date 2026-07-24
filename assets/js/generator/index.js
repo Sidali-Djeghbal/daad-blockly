@@ -5,6 +5,7 @@ Daad.RESERVED_WORDS_ = 'اذا,واذا,والا,طالما,لكل,كرر,مرا
 
 Daad.init = function(workspace) {
   Blockly.CodeGenerator.prototype.init.call(this, workspace);
+  this.workspace_ = workspace;
   this.nameDB_ = new Blockly.Names(this.RESERVED_WORDS_);
   this.nameDB_.setVariableMap(workspace.getVariableMap());
   this.nameDB_.populateVariables(workspace);
@@ -13,6 +14,13 @@ Daad.init = function(workspace) {
 };
 
 Daad.getVariableName = function(name) {
+  if (this.workspace_) {
+    var map = this.workspace_.getVariableMap();
+    if (map) {
+      var v = map.getVariableById(name);
+      if (v) return v.name;
+    }
+  }
   return name;
 };
 Daad.ORDER_UNARY = 1;
