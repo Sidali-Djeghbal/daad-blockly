@@ -42,8 +42,7 @@ Daad.forBlock['text'] = function(block) {
 };
 
 Daad.forBlock['text_print'] = function(block, generator) {
-  var text = generator.valueToCode(block, 'TEXT', Daad.ORDER_ATOMIC) || q('');
-  return 'اطبع(' + text + ' + "\\n")\n';
+  return 'اطبع(' + (generator.valueToCode(block, 'TEXT', Daad.ORDER_ATOMIC) || q('')) + ')\n';
 };
 
 Daad.forBlock['text_length'] = function(block, generator) {
