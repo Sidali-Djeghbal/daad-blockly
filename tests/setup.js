@@ -1,12 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import * as Blockly from 'blockly';
+import * as BlocklyNS from 'blockly';
 import 'blockly/blocks';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
 
+// ESM namespace objects are non-extensible, so the eval'd scripts below cannot
+// attach `Blockly.Blocks[...]` / `Blockly.Daad` directly. Copy the namespace
+// into a fresh extensible object that the scripts can mutate.
+const Blockly = { ...BlocklyNS };
 globalThis.Blockly = Blockly;
 
 const customSrc = fs.readFileSync(
