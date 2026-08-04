@@ -26,7 +26,6 @@
   }
 
   var workspace;
-  var isInitialLoad = true;
   var currentFilePath = '';
   var isRunning = false;
   var currentExecId = null;
@@ -234,7 +233,6 @@
     }
     updateCode();
     setStatus('');
-    isInitialLoad = false;
   }
 
   function updateFileInfo() {
@@ -246,18 +244,6 @@
         fileInfo.textContent = 'workspace.json';
       }
     }
-  }
-
-  function applyBlocklyRTLFix() {
-    var style = document.createElement('style');
-    style.textContent = [
-      '#blocklyDiv .blocklyToolbox { direction: rtl; }',
-      '#blocklyDiv .fieldInput > input { direction: ltr; text-align: left; }'
-    ].join('\n');
-    var existing = document.getElementById('blockly-rtl-fix');
-    if (existing) existing.remove();
-    style.id = 'blockly-rtl-fix';
-    document.head.appendChild(style);
   }
 
   function init() {
@@ -282,11 +268,6 @@
       rtl: true,
       trashcan: true,
       theme: daadTheme,
-    });
-
-    setTimeout(applyBlocklyRTLFix, 300);
-    workspace.addChangeListener(function() {
-      applyBlocklyRTLFix();
     });
 
     loadSavedWorkspace();
@@ -317,15 +298,58 @@
         e.preventDefault();
         workspace.undo(true);
       }
+      var inEditableField = e.target && (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT' || e.target.isContentEditable);
+      if ((e.ctrlKey || e.metaKey) && e.key === 's' && !inEditableField) {
+        e.preventDefault();
+        doSave();
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'o' && !inEditableField) {
+        e.preventDefault();
+        doOpen();
+      }
     });
 
     // Examples dropdown
     var examplesBtn = document.getElementById('examplesBtn');
     var examplesMenu = document.getElementById('examplesMenu');
     if (examplesBtn && examplesMenu) {
+      var updateExamplesExpanded = function() {
+        examplesBtn.setAttribute('aria-expanded', examplesMenu.classList.contains('open'));
+      };
       examplesBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        examplesMenu.classList.toggle('open');
+        var willOpen = !examplesMenu.classList.contains('open');
+        examplesMenu.classList.toggle('open', willOpen);
+        updateExamplesExpanded();
+        if (willOpen) {
+          var firstItem = examplesMenu.querySelector('.dropdown-item');
+          if (firstItem) firstItem.focus();
+        }
+      });
+      examplesBtn.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          examplesMenu.classList.add('open');
+          updateExamplesExpanded();
+          var firstItem = examplesMenu.querySelector('.dropdown-item');
+          if (firstItem) firstItem.focus();
+        }
+      });
+      examplesMenu.addEventListener('keydown', function(e) {
+        var items = Array.prototype.slice.call(examplesMenu.querySelectorAll('.dropdown-item'));
+        var idx = items.indexOf(document.activeElement);
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          items[(idx + 1) % items.length].focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          items[(idx - 1 + items.length) % items.length].focus();
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          examplesMenu.classList.remove('open');
+          updateExamplesExpanded();
+          examplesBtn.focus();
+        }
       });
       examplesMenu.querySelectorAll('.dropdown-item').forEach(function(item) {
         item.addEventListener('click', function() {
@@ -341,16 +365,20 @@
               if (parseErr) { alert('خطأ في XML: ' + parseErr.textContent); return; }
               Blockly.Xml.domToWorkspace(xmlDom.documentElement, workspace);
               updateCode();
-            } catch (e) {
-              console.error('Example load error:', e);
-              alert('خطأ في تحميل المثال: ' + e.message);
+            } catch (err) {
+              console.error('Example load error:', err);
+              alert('خطأ في تحميل المثال: ' + err.message);
             }
           }
           examplesMenu.classList.remove('open');
+          updateExamplesExpanded();
         });
       });
       document.addEventListener('click', function() {
-        examplesMenu.classList.remove('open');
+        if (examplesMenu.classList.contains('open')) {
+          examplesMenu.classList.remove('open');
+          updateExamplesExpanded();
+        }
       });
     }
   }

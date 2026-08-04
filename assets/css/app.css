@@ -9,6 +9,9 @@
   --secondary: #f1f5f9;
   --danger: #dc2626;
   --danger-bg: #fef2f2;
+  --gap: 12px;
+  --radius: 8px;
+  --focus-ring: 0 0 0 3px rgba(33, 173, 119, 0.35);
 }
 
 * { box-sizing: border-box; }
@@ -28,12 +31,21 @@ a:hover { text-decoration: underline; }
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--gap);
   padding: 10px 16px;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
+  flex-wrap: wrap;
 }
 
-.user-info { display: flex; align-items: center; gap: 12px; }
+.topbar > strong { font-size: 16px; }
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  flex-wrap: wrap;
+}
 
 .main-container {
   display: flex;
@@ -58,7 +70,7 @@ a:hover { text-decoration: underline; }
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--gap);
   background: var(--bg);
 }
 
@@ -67,7 +79,7 @@ a:hover { text-decoration: underline; }
 .workspace-split {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--gap);
   flex: 1;
   min-height: 0;
 }
@@ -119,6 +131,10 @@ textarea, .output {
 
 .btn:hover { background: var(--primary-hover); }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
 
 .btn-secondary {
   background: var(--secondary);
@@ -126,6 +142,7 @@ textarea, .output {
 }
 
 .btn-secondary:hover { background: #e2e8f0; }
+.btn-secondary:focus-visible { box-shadow: var(--focus-ring); }
 
 .btn-danger {
   background: var(--danger);
@@ -184,15 +201,15 @@ textarea, .output {
   display: none;
   position: absolute;
   top: 100%;
-  left: 0;
-  right: auto;
+  right: 0;
+  left: auto;
   z-index: 100;
   min-width: 200px;
   margin-top: 4px;
   padding: 6px 0;
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 .dropdown-menu.open { display: block; }
@@ -209,12 +226,17 @@ textarea, .output {
   font-family: inherit;
   transition: background 0.15s;
 }
-.dropdown-item:hover { background: var(--secondary); }
-.dropdown-item:first-child { border-radius: 8px 8px 0 0; }
-.dropdown-item:last-child { border-radius: 0 0 8px 8px; }
+.dropdown-item:hover, .dropdown-item:focus-visible { background: var(--secondary); outline: none; }
+.dropdown-item:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+.dropdown-item:last-child { border-radius: 0 0 var(--radius) var(--radius); }
+
+@media (max-width: 960px) {
+  .workspace-section { width: 420px; }
+  .blockly-section { min-width: 240px; }
+}
 
 @media (max-width: 768px) {
-  .main-container { flex-direction: column; }
+  .main-container { flex-direction: column; height: calc(100vh - 56px); }
   .blockly-section {
     height: 50vh;
     min-height: 300px;
@@ -226,6 +248,18 @@ textarea, .output {
     min-width: auto;
     flex: 1;
   }
+  .btn { padding: 8px 14px; }
+}
+
+@media (max-width: 480px) {
+  .topbar { padding: 8px 10px; }
+  #fileInfo { display: none; }
+  .user-info { gap: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-send-active { animation: none; }
+  *, *::before, *::after { transition: none !important; }
 }
 
 /* ---- Modern Toolbox Styling ---- */
@@ -335,5 +369,13 @@ textarea, .output {
 /* Flyout scrollbar */
 .blocklyFlyout .blocklyScrollbarVertical {
   width: 4px !important;
+}
+
+/* ---- Permanent Blockly RTL fix (replaces the runtime style injection) ---- */
+#blocklyDiv .blocklyToolbox { direction: rtl; }
+#blocklyDiv .blocklyFieldInput > input,
+#blocklyDiv input.blocklyHtmlInput {
+  direction: ltr;
+  text-align: left;
 }
 

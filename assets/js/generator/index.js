@@ -177,7 +177,7 @@ Daad.forBlock['variables_set'] = function(block, generator) {
 Daad.forBlock['procedures_defnoreturn'] = function(block, generator) {
   var name = generator.getProcedureName(block.getFieldValue('NAME'));
   var params = '';
-  var paramList = block.getParameters();
+  var paramList = (block.getParameters ? block.getParameters() : null) || [];
   for (var i = 0; i < paramList.length; i++) {
     params += (params ? ', ' : '') + paramList[i].getName();
   }
@@ -187,7 +187,7 @@ Daad.forBlock['procedures_defnoreturn'] = function(block, generator) {
 Daad.forBlock['procedures_defreturn'] = function(block, generator) {
   var name = generator.getProcedureName(block.getFieldValue('NAME'));
   var params = '';
-  var paramList = block.getParameters();
+  var paramList = (block.getParameters ? block.getParameters() : null) || [];
   for (var i = 0; i < paramList.length; i++) {
     params += (params ? ', ' : '') + paramList[i].getName();
   }

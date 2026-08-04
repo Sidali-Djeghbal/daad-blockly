@@ -6,6 +6,10 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "dist": "electron-builder",
     "dist:linux": "electron-builder --linux",
     "dist:win": "electron-builder --win",
@@ -59,7 +63,8 @@
   },
   "devDependencies": {
     "electron-builder": "^26.15.3",
-    "jsdom": "^25.0.1",
+    "eslint": "^8.57.1",
+    "jsdom": "^27.4.0",
     "vitest": "^2.1.9"
   }
 }
