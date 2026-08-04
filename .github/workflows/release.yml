@@ -51,6 +51,7 @@ jobs:
         with:
           pattern: daad-blockly-*
           merge-multiple: true
+          path: dist
 
       - name: Display structure
         run: ls -laR
