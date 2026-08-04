@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { codeOf } from '../setup.js';
+import { codeOf } from './setup.js';
 
 describe('smoke', () => {
   it('generates print of a string', () => {
