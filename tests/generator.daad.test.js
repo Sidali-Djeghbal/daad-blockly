@@ -23,9 +23,17 @@ describe('daad tuple / dict', () => {
     expect(codeOf(program(block('daad_tuple', { fields: { ITEMS: '1, 2, 3' } }))).trim())
       .toBe('(1, 2, 3)');
   });
-  it('daad_dict -> items verbatim (no brace-wrapping)', () => {
+  it('daad_dict -> {items} (wraps when missing braces)', () => {
     expect(codeOf(program(block('daad_dict', { fields: { ITEMS: '"a": 1' } }))).trim())
-      .toBe('"a": 1');
+      .toBe('{"a": 1}');
+  });
+  it('daad_dict does not double-wrap when braces already present', () => {
+    expect(codeOf(program(block('daad_dict', { fields: { ITEMS: '{"a": 1}' } }))).trim())
+      .toBe('{"a": 1}');
+  });
+  it('daad_dict empty -> {}', () => {
+    expect(codeOf(program(block('daad_dict', { fields: { ITEMS: '' } }))).trim())
+      .toBe('{}');
   });
 });
 

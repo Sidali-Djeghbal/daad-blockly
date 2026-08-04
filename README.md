@@ -243,22 +243,32 @@ npm run dev
 
 ```
 daad-blockly/
-├── main.js                  # عملية Electron الرئيسية
-├── preload.js               # جسر الأمان (DaadAPI)
-├── renderer.js              # منطق التطبيق و Blockly
-├── index.html               # الصفحة الرئيسية (RTL)
-├── package.json             # إعدادات المشروع
+├── main.js                      # عملية Electron الرئيسية
+├── preload.js                   # جسر الأمان (DaadAPI)
+├── renderer.js                  # ربط واجهة المستخدم بـ Blockly ومنطق التطبيق
+├── index.html                   # الصفحة الرئيسية (RTL)
+├── package.json                 # إعدادات المشروع
+├── vitest.config.js             # إعدادات بيئة الاختبارات (Vitest + jsdom)
+├── AGENTS.md                    # دليل المساهمين والأوامر
+├── .github/workflows/
+│   ├── ci.yml                   # فحص الأكواد والاختبارات عند كل	push/PR
+│   └── release.yml               # بناء وإصدار الحزم عند دفع وسم v*
 ├── bin/
-│   ├── daad                 # مترجم ضاد (Linux)
-│   └── daad.exe             # مترجم ضاد (Windows)
+│   ├── daad                     # مترجم ضاد (Linux)
+│   └── daad.exe                 # مترجم ضاد (Windows)
 ├── assets/
-│   ├── css/app.css          # الأنماط
-│   ├── img/logo.svg         # الشعار
+│   ├── css/app.css              # الأنماط (RTL، استجابة، إتاحة)
+│   ├── img/logo.svg             # الشعار
+│   ├── icons/                   # أيقونات الحزم (512.png, 256.png, icon.ico)
 │   └── js/
+│       ├── app/logic.js         # منطق التطبيق النقي (DaadApp) — قابل للاختبار
 │       ├── blocks/custom.js     # تعريفات القطع المخصصة
 │       ├── blocks/toolbox.js    # ترتيب شريط الأدوات
-│       └── generator/index.js   # مولّد كود ضاد
-└── node_modules/            # التبعيات
+│       ├── generator/index.js   # مولّد كود ضاد
+│       └── examples.js          # أمثلة جاهزة
+├── tests/                       # اختبارات Vitest (generator.*, app.logic)
+│   └── setup.js                 # تحميل Blockly وDaad في بيئة jsdom
+└── node_modules/                # التبعيات
 ```
 
 ---
@@ -284,6 +294,40 @@ npm run dev
 
 يضيف الوسيط `--dev` الذي يفتح DevTools تلقائيًا عند بدء التطبيق.
 
+## الاختبارات
+
+يعتمد المشروع على **Vitest** مع **jsdom** لاختبار مولّد الكود (`assets/js/generator/index.js`) ومنطق التطبيق (`assets/js/app/logic.js`) دون الحاجة إلى Electron أو Blockly كامل. يقوم `tests/setup.js` بتحميل Blockly كـ ESM، ثم ينسخه إلى كائن قابل للتوسيع، ثم يُنفّذ `custom.js` و`generator/index.js` عبر `eval` بحيث تتوفر `Blockly.Daad` فعلياً في الاختبارات. يمكن بناء حالة الكتل عبر الدوال المساعدة المُصدَّرة من `tests/setup.js`: `block()`, `val()`, `stmt()`, `text()`, `num()`, `program()`, `variable()`, `codeOf()`.
+
+```bash
+npm test              # تشغيل الاختبارات مرة واحدة (كود الخروج يعكس النجاح/الفشل)
+npm run test:watch    # وضع المراقبة
+npm run lint          # فحص ESLint (تحذيرات فقط)
+npm run lint:fix      # إصلاح تلقائي للأكواد
+```
+
+يُشغّل **CI** (`.github/workflows/ci.yml`) `lint` و`test` عند كل push/PR. لتفاصيل أكثر حول إضافة اختبارات أو القطع، راجع `AGENTS.md`.
+
+## اختصارات لوحة المفاتيح
+
+| الاختصار | العمل |
+| -------- | ----- |
+| `Ctrl+Z` | تراجع |
+| `Ctrl+Y` أو `Ctrl+Shift+Z` | إعادة |
+| `Ctrl+S` | حفظ |
+| `Ctrl+O` | فتح |
+| `Alt+R` | تشغيل |
+| `Alt+S` | حفظ |
+| `Alt+O` | فتح |
+
+يدعم قائمة **الأمثلة** التنقل بلوحة المفاتيح: `↓`/`↑` للتنقل بين العناصر، `Enter` للاختيار، `Esc` للإغلاق.
+
+## الإتاحة والاستجابة
+
+- تسميات ARIA و`aria-live` على مناطق الكود والمخرجات والأخطاء.
+- حلقات تركيز واضحة (`focus-visible`) لكل الأزرار وعناصر القائمة.
+- نقاط توقف استجابية عند 960px و768px و480px (تتكديس اللوحات ويُخفى اسم الملف على الشاشات الضيقة).
+- دعم `prefers-reduced-motion` (تعطيل الرسوم المتحركة).
+
 ---
 
 ## الترخيص
@@ -302,5 +346,16 @@ npm run dev
 ## المساهمة
 
 نرحب دائماً بمساهماتكم! سواء كان ذلك من خلال إصلاح الأخطاء (Bug Fixes)، إضافة ميزات وكتل جديدة، أو حتى تحسين التوثيق. لا تتردد في فتح طلب سحب (Pull Request) أو الإبلاغ عن مشكلة عبر (Issues).
+
+يرجى الاطلاع على `AGENTS.md` لقائمة الأوامر وقواعد التنسيق وكيفية إضافة اختبارات جديدة للمولّد أو منطق التطبيق. شغّل `npm run lint` و`npm test` قبل إرسال المساهمة.
+
+## بناء الحزم
+
+```bash
+npm run dist:linux   # AppImage + deb (x86-64)
+npm run dist:win     # مثبّت NSIS (x86-64)
+```
+
+> **ملاحظة:** لا يُبنى إصدار macOS حالياً لعدم توفّر بنية ضاد لنظام macOS. إذا حاول المستخدم تشغيل التطبيق على macOS تظهر رسالة خطأ واضحة. للحصول على إصدار منشور، ادفع وسم `v*` (مثل `v1.0.0`)؛ سيقوم `release.yml` ببناء حزم Linux وWindows وإنشاء إصدار مسودة على GitHub مع ملاحظات تلقائية.
 
 </div>

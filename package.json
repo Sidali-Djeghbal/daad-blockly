@@ -2,6 +2,8 @@
   "name": "daad-blockly",
   "version": "1.0.0",
   "description": "لغة ضاد - Desktop Blockly App",
+  "author": "Sidali Djeghbal <sidali.djeghbal@gmail.com>",
+  "desktopName": "daad-blockly.desktop",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -12,8 +14,7 @@
     "lint:fix": "eslint . --fix",
     "dist": "electron-builder",
     "dist:linux": "electron-builder --linux",
-    "dist:win": "electron-builder --win",
-    "dist:mac": "electron-builder --mac"
+    "dist:win": "electron-builder --win"
   },
   "build": {
     "appId": "com.daad.blockly",
@@ -27,7 +28,6 @@
       "preload.js",
       "renderer.js",
       "assets/**/*",
-      "bin/**/*",
       "node_modules/**/*"
     ],
     "linux": {
@@ -36,32 +36,29 @@
         "deb"
       ],
       "category": "Education",
-      "icon": "assets/icons"
+      "icon": "assets/icons/512.png",
+      "maintainer": "Sidali Djeghbal <sidali.djeghbal@gmail.com>",
+      "syncDesktopName": true,
+      "files": ["bin/daad"]
     },
     "win": {
       "target": [
         "nsis"
       ],
-      "icon": "assets/icons/icon.ico"
+      "icon": "assets/icons/icon.ico",
+      "files": ["bin/daad.exe"]
     },
     "nsis": {
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true
-    },
-    "mac": {
-      "target": [
-        "dmg"
-      ],
-      "icon": "assets/icons/512.png",
-      "category": "public.app-category.education"
     }
   },
   "dependencies": {
-    "blockly": "^13.0.0",
-    "electron": "^42.4.1"
+    "blockly": "^13.0.0"
   },
   "devDependencies": {
+    "electron": "^42.4.1",
     "electron-builder": "^26.15.3",
     "eslint": "^8.57.1",
     "jsdom": "^27.4.0",

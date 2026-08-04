@@ -26,9 +26,6 @@
   }
 
   var workspace;
-  var currentFilePath = '';
-  var isRunning = false;
-  var currentExecId = null;
 
   function setStatus(txt) {
     if (saveStatus) saveStatus.textContent = txt;
@@ -42,6 +39,10 @@
     }
   }
 
+  function hideError() {
+    if (errorIndicator) errorIndicator.style.display = 'none';
+  }
+
   function hasInputBlocks() {
     if (!workspace) return false;
     var blocks = workspace.getAllBlocks();
@@ -51,11 +52,6 @@
     return false;
   }
 
-  function updateInputVisibility() {
-    if (!inputArea) return;
-    inputArea.style.display = hasInputBlocks() ? '' : 'none';
-  }
-
   function updateCode() {
     if (!workspace) return;
     try {
@@ -63,7 +59,7 @@
     } catch (e) {
       codeBox.value = 'Error: ' + e.message;
     }
-    updateInputVisibility();
+    app.updateInputVisibility();
   }
 
   function getWorkspaceJson() {
@@ -76,8 +72,23 @@
     }
   }
 
+  function loadWorkspaceState(state) {
+    Blockly.serialization.workspaces.load(state, workspace);
+    updateCode();
+  }
+
+  function updateFileInfo(path) {
+    if (fileInfo) {
+      if (path) {
+        var parts = path.replace(/\\/g, '/').split('/');
+        fileInfo.textContent = parts[parts.length - 1];
+      } else {
+        fileInfo.textContent = 'workspace.json';
+      }
+    }
+  }
+
   function setRunningState(running) {
-    isRunning = running;
     if (running) {
       runBtn.textContent = 'إيقاف';
       runBtn.className = 'btn btn-danger';
@@ -95,156 +106,26 @@
     }
   }
 
-  async function sendInput() {
-    if (!currentExecId || !inputBox) return;
-    var text = inputBox.value;
-    if (!text) return;
-    try {
-      await api.sendStdin(currentExecId, text + '\n');
-      inputBox.value = '';
-    } catch (e) {
-      showError(e.message);
-    }
-  }
-
-  async function doRun() {
-    if (isRunning) {
-      try {
-        await api.stopExecution(currentExecId);
-      } catch (e) {
-        showError(e.message);
-      }
-      return;
-    }
-
-    currentExecId = null;
-    setRunningState(true);
-    outBox.textContent = '';
-    if (errorIndicator) errorIndicator.style.display = 'none';
-
-    try {
-      var input = inputBox ? inputBox.value : '';
-      var result = await api.runCode(codeBox.value, input);
-      if (!result.ok) {
-        showError(result.error || 'فشل بدء التنفيذ');
-        setRunningState(false);
-        return;
-      }
-      currentExecId = result.execId;
-      if (inputBox) inputBox.value = '';
-    } catch (e) {
-      showError(e.message || 'فشل بدء التنفيذ');
-      setRunningState(false);
-    }
-  }
-
-  function handleOutput(data) {
-    if (data.execId !== currentExecId) return;
-
-    if (data.done) {
-      currentExecId = null;
-      setRunningState(false);
-      if (data.ok) {
-        if (data.stdout !== undefined) outBox.textContent = data.stdout;
-        if (data.stderr) showError(data.stderr);
-      } else {
-        showError(data.error || 'فشل التنفيذ');
-        if (data.stdout) outBox.textContent = data.stdout;
-      }
-      return;
-    }
-
-    if (data.stdout) outBox.textContent += data.stdout;
-    if (data.stderr) showError(data.stderr);
-  }
-
-  async function doSave() {
-    var json = getWorkspaceJson();
-    if (!json) return;
-    setStatus('جاري...');
-    try {
-      var result = await api.saveWorkspace(json);
-      if (result.ok) {
-        currentFilePath = result.path;
-        setStatus('تم الحفظ');
-        updateFileInfo();
-      } else {
-        setStatus('فشل');
-        showError(result.error || 'فشل الحفظ');
-      }
-    } catch (e) {
-      setStatus('فشل');
-      showError(e.message);
-    }
-  }
-
-  async function doSaveAs() {
-    var json = getWorkspaceJson();
-    if (!json) return;
-    try {
-      var result = await api.saveWorkspaceAs(json);
-      if (result.ok) {
-        currentFilePath = result.path;
-        setStatus('تم الحفظ');
-        updateFileInfo();
-      } else if (!result.canceled) {
-        showError(result.error || 'فشل الحفظ');
-      }
-    } catch (e) {
-      showError(e.message);
-    }
-  }
-
-  async function doOpen() {
-    try {
-      var result = await api.openWorkspace();
-      if (result.ok && result.json) {
-        try {
-          var state = JSON.parse(result.json);
-          Blockly.serialization.workspaces.load(state, workspace);
-          currentFilePath = result.path || '';
-          setStatus('تم الفتح');
-          updateFileInfo();
-          updateCode();
-        } catch (e) {
-          showError('فشل فتح الملف: ' + e.message);
-        }
-      } else if (!result.canceled) {
-        showError(result.error || 'فشل الفتح');
-      }
-    } catch (e) {
-      showError(e.message);
-    }
-  }
-
-  async function loadSavedWorkspace() {
-    try {
-      var result = await api.loadWorkspace();
-      if (result.ok && result.json) {
-        try {
-          var state = JSON.parse(result.json);
-          Blockly.serialization.workspaces.load(state, workspace);
-        } catch (e) {
-          console.warn('Failed to load workspace:', e);
-        }
-      }
-    } catch (e) {
-      console.warn('Failed to load workspace:', e);
-    }
-    updateCode();
-    setStatus('');
-  }
-
-  function updateFileInfo() {
-    if (fileInfo) {
-      if (currentFilePath) {
-        var parts = currentFilePath.replace(/\\/g, '/').split('/');
-        fileInfo.textContent = parts[parts.length - 1];
-      } else {
-        fileInfo.textContent = 'workspace.json';
-      }
-    }
-  }
+  var app = new window.DaadApp({
+    api: api,
+    getCode: function() { return codeBox.value; },
+    getInput: function() { return inputBox ? inputBox.value : ''; },
+    clearInput: function() { if (inputBox) inputBox.value = ''; },
+    getOutput: function() { return outBox.textContent; },
+    setOutput: function(s) { outBox.textContent = s; },
+    appendOutput: function(s) { outBox.textContent += s; },
+    setStatus: setStatus,
+    showError: showError,
+    hideError: hideError,
+    setRunning: setRunningState,
+    hasInputBlock: hasInputBlocks,
+    setInputVisible: function(visible) {
+      if (inputArea) inputArea.style.display = visible ? '' : 'none';
+    },
+    getWorkspaceJson: getWorkspaceJson,
+    loadWorkspaceState: loadWorkspaceState,
+    setFilePath: updateFileInfo,
+  });
 
   function init() {
     var daadTheme = Blockly.Theme.defineTheme('daad', {
@@ -270,19 +151,19 @@
       theme: daadTheme,
     });
 
-    loadSavedWorkspace();
+    app.loadSaved();
+    app.wireOutput();
 
     workspace.addChangeListener(function(e) {
       if (e && e.isUiEvent) return;
       updateCode();
     });
 
-    if (api.onOutput) api.onOutput(handleOutput);
-    runBtn.addEventListener('click', doRun);
-    if (sendInputBtn) sendInputBtn.addEventListener('click', sendInput);
-    if (saveBtn) saveBtn.addEventListener('click', doSave);
-    if (saveAsBtn) saveAsBtn.addEventListener('click', doSaveAs);
-    if (openBtn) openBtn.addEventListener('click', doOpen);
+    runBtn.addEventListener('click', function() { app.run(); });
+    if (sendInputBtn) sendInputBtn.addEventListener('click', function() { app.sendInput(); });
+    if (saveBtn) saveBtn.addEventListener('click', function() { app.save(); });
+    if (saveAsBtn) saveAsBtn.addEventListener('click', function() { app.saveAs(); });
+    if (openBtn) openBtn.addEventListener('click', function() { app.open(); });
 
     // Undo/Redo
     var undoBtn = document.getElementById('undoBtn');
@@ -301,11 +182,11 @@
       var inEditableField = e.target && (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT' || e.target.isContentEditable);
       if ((e.ctrlKey || e.metaKey) && e.key === 's' && !inEditableField) {
         e.preventDefault();
-        doSave();
+        app.save();
       }
       if ((e.ctrlKey || e.metaKey) && e.key === 'o' && !inEditableField) {
         e.preventDefault();
-        doOpen();
+        app.open();
       }
     });
 

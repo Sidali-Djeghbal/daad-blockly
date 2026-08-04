@@ -14,6 +14,11 @@ blocks, and generator attach properties to that global (`Blockly.Blocks[...]`,
 `Blockly.Daad = Daad`). Do **not** convert these files to ES modules without
 also updating `index.html` and the test setup.
 
+The renderer's pure logic (run flow, save/open, send-input, output handling)
+lives in `assets/js/app/logic.js` as a `window.DaadApp` constructor with no
+Blockly or DOM references — it's wired to the page by `renderer.js` and unit
+tested in `tests/app.logic.test.js` against a stubbed `api`.
+
 ## Commands
 
 - `npm start` — launch the Electron app.

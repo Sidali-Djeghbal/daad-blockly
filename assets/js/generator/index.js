@@ -264,7 +264,11 @@ Daad.forBlock['daad_list_get'] = function(block, generator) {
 };
 
 Daad.forBlock['daad_dict'] = function(block) {
-  return [block.getFieldValue('ITEMS') || '{}', Daad.ORDER_ATOMIC];
+  var items = String(block.getFieldValue('ITEMS') || '').trim();
+  if (items.charAt(0) === '{' && items.charAt(items.length - 1) === '}') {
+    return [items, Daad.ORDER_ATOMIC];
+  }
+  return ['{' + items + '}', Daad.ORDER_ATOMIC];
 };
 
 Daad.forBlock['daad_tuple'] = function(block) {

@@ -42,6 +42,9 @@ app.whenReady().then(() => {
 
 const getDaadBinary = () => {
   const { platform } = process;
+  if (platform === 'darwin') {
+    throw new Error('macOS غير مدعوم حالياً — لا تتوفر بنية ضاد لنظام macOS.');
+  }
   const isWin = platform === 'win32';
   const binName = isWin ? 'daad.exe' : 'daad';
   const binPath = path.join(__dirname, 'bin', binName);
