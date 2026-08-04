@@ -11,7 +11,7 @@ describe('smoke', () => {
             type: 'text_print',
             kind: 'block',
             inputs: {
-              TEXT: { kind: 'block', type: 'text', fields: { TEXT: 'مرحبا' } },
+              TEXT: { block: { kind: 'block', type: 'text', fields: { TEXT: 'مرحبا' } } },
             },
           },
         ],
