@@ -34,7 +34,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: daad-blockly-${{ matrix.platform }}
-          path: dist/
+          path: |
+            dist/*.deb
+            dist/*.AppImage
+            dist/*.exe
+            dist/*.blockmap
+            dist/latest*.yml
           retention-days: 7
 
   release:
@@ -62,6 +67,8 @@ jobs:
           name: لغة ضاد ${{ github.ref_name }}
           generate_release_notes: true
           files: |
-            dist/**/*
+            dist/*.deb
+            dist/*.AppImage
+            dist/*.exe
           draft: true
           prerelease: false
