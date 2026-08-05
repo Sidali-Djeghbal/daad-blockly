@@ -53,7 +53,14 @@ const getDaadBinary = () => {
   }
   const isWin = process.platform === 'win32';
   const binName = isWin ? 'daad.exe' : 'daad';
-  const binPath = path.join(__dirname, 'bin', platformDir, archDir, binName);
+  const rel = path.join('bin', platformDir, archDir, binName);
+  const base = app.isPackaged
+    ? path.join(process.resourcesPath, 'app.asar.unpacked')
+    : __dirname;
+  let binPath = path.join(base, rel);
+  if (!fs.existsSync(binPath)) {
+    binPath = path.join(__dirname, rel);
+  }
   if (!fs.existsSync(binPath)) {
     throw new Error('لم يتم العثور على بنية ضاد في ' + binPath);
   }
