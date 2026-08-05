@@ -39,6 +39,78 @@ Blockly.Blocks['daad_list_get'] = {
   }
 };
 
+Blockly.Blocks['daad_list_append'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput('ق'), 'VAR')
+      .appendField(new Blockly.FieldDropdown([
+        ['اضف', 'APPEND'],
+        ['ادفع', 'PUSH']
+      ]), 'OP');
+    this.appendValueInput('ITEM');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(260);
+    this.setTooltip('يضيف عنصراً إلى نهاية قائمة. مثلاً: ق = اضف(ق, 3)');
+  }
+};
+
+Blockly.Blocks['daad_list_pop'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput('ق'), 'VAR')
+      .appendField('ازل');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(260);
+    this.setTooltip('يزيل آخر عنصر من قائمة. مثلاً: ق = ازل(ق)');
+  }
+};
+
+Blockly.Blocks['daad_list_copy'] = {
+  init: function() {
+    this.appendDummyInput().appendField('انسخ');
+    this.appendValueInput('LIST');
+    this.setOutput(true, 'Array');
+    this.setColour(260);
+    this.setTooltip('ينسخ قائمة (نسخة سطحية). مثلاً: ق2 = انسخ(ق)');
+  }
+};
+
+Blockly.Blocks['daad_list_clear'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldTextInput('ق'), 'VAR')
+      .appendField('افرغ');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(260);
+    this.setTooltip('يفرغ كل عناصر قائمة. مثلاً: ق = افرغ(ق)');
+  }
+};
+
+Blockly.Blocks['daad_range'] = {
+  init: function() {
+    this.appendDummyInput().appendField('نطاق');
+    this.appendValueInput('END').setCheck('Number');
+    this.setOutput(true, 'Array');
+    this.setColour(260);
+    this.setTooltip('ينشئ قائمة أعداد صحيحة من 0 إلى العدد المطلوب (لا يشمل العدد). مفيد مع لكل.');
+  }
+};
+
+Blockly.Blocks['daad_format'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField('نسق')
+      .appendField(new Blockly.FieldTextInput('الاسم: %ن'), 'TEMPLATE');
+    this.appendValueInput('ARGS');
+    this.setOutput(true, 'String');
+    this.setColour(160);
+    this.setTooltip('ينسق نصاً باستخدام قوالب: %ن نص، %ر عدد صحيح، %ع عدد عشري، %م منطقي. مثلاً: نسق("عمرك %ر سنة", 25)');
+  }
+};
+
 Blockly.Blocks['daad_dict'] = {
   init: function() {
     this.appendDummyInput()
@@ -255,11 +327,11 @@ Blockly.Blocks['daad_import'] = {
   init: function() {
     this.appendDummyInput()
       .appendField('استورد')
-      .appendField(new Blockly.FieldTextInput('math'), 'MODULE');
+      .appendField(new Blockly.FieldTextInput('رياضيات'), 'MODULE');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(210);
-    this.setTooltip('يستورد مكتبة جاهزة لاستخدام دوالها. مثلاً: استورد الرياضيات');
+    this.setTooltip('يستورد مكتبة جاهزة لاستخدام دوالها. الوحدات المدمجة: رياضيات، عشوائي، وقت، نظام، مسار. أو ملف ضاد (.daad).');
   }
 };
 
@@ -267,12 +339,12 @@ Blockly.Blocks['daad_import_from'] = {
   init: function() {
     this.appendDummyInput()
       .appendField('من')
-      .appendField(new Blockly.FieldTextInput('math'), 'MODULE')
+      .appendField(new Blockly.FieldTextInput('رياضيات'), 'MODULE')
       .appendField('استورد')
       .appendField(new Blockly.FieldTextInput('جذر'), 'NAME');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(210);
-    this.setTooltip('يستورد دالة محددة من مكتبة. مثلاً: من الرياضيات استورد جذر');
+    this.setTooltip('يستورد دالة محددة من مكتبة. مثلاً: من رياضيات استورد جذر');
   }
 };

@@ -13,8 +13,16 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux
+            arch: x64
           - os: windows-latest
             platform: win
+            arch: x64
+          - os: macos-latest
+            platform: mac
+            arch: x64
+          - os: macos-latest
+            platform: mac
+            arch: arm64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -27,17 +35,21 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build (${{ matrix.platform }})
-        run: npm run dist:${{ matrix.platform }} -- --publish never
+      - name: Build (${{ matrix.platform }} / ${{ matrix.arch }})
+        run: npm run dist:${{ matrix.platform }} -- --publish never --${{ matrix.arch }}
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: daad-blockly-${{ matrix.platform }}
+          name: daad-blockly-${{ matrix.platform }}-${{ matrix.arch }}
           path: |
             dist/*.deb
             dist/*.AppImage
             dist/*.exe
+            dist/*.dmg
+            dist/*.zip
             dist/*.blockmap
             dist/latest*.yml
           retention-days: 7
@@ -70,5 +82,7 @@ jobs:
             dist/*.deb
             dist/*.AppImage
             dist/*.exe
+            dist/*.dmg
+            dist/*.zip
           draft: true
           prerelease: false

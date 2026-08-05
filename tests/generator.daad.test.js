@@ -18,6 +18,27 @@ describe('daad cast / type / membership', () => {
   });
 });
 
+describe('daad format', () => {
+  it('daad_format without args -> نسق("tpl")', () => {
+    expect(codeOf(program(
+      block('daad_format', { fields: { TEMPLATE: 'مرحبا' } })
+    )).trim()).toBe('نسق("مرحبا")');
+  });
+  it('daad_format with args -> نسق("tpl", args)', () => {
+    expect(codeOf(program(
+      block('daad_format', {
+        fields: { TEMPLATE: 'عمرك %ر سنة' },
+        inputs: { ARGS: num(25) },
+      })
+    )).trim()).toBe('نسق("عمرك %ر سنة", 25)');
+  });
+  it('daad_format escapes quotes in template', () => {
+    expect(codeOf(program(
+      block('daad_format', { fields: { TEMPLATE: 'قال "مرحبا"' } })
+    )).trim()).toBe('نسق("قال \\"مرحبا\\"")');
+  });
+});
+
 describe('daad tuple / dict', () => {
   it('daad_tuple -> (items)', () => {
     expect(codeOf(program(block('daad_tuple', { fields: { ITEMS: '1, 2, 3' } }))).trim())

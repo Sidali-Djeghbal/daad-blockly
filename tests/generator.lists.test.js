@@ -42,3 +42,50 @@ describe('list blocks', () => {
     expect(code.trim()).toBe('[][0]');
   });
 });
+
+describe('daad range / list ops', () => {
+  it('daad_range -> نطاق(n)', () => {
+    expect(codeOf(program(
+      block('daad_range', { inputs: { END: num(5) } })
+    )).trim()).toBe('نطاق(5)');
+  });
+
+  it('daad_list_append ADD -> q = اضف(q, item)', () => {
+    const code = codeOf(program(
+      block('daad_list_append', {
+        fields: { VAR: 'ق', OP: 'APPEND' },
+        inputs: { ITEM: num(3) },
+      })
+    ));
+    expect(code.trim()).toBe('ق = اضف(ق, 3)');
+  });
+
+  it('daad_list_append PUSH -> q = ادفع(q, item)', () => {
+    const code = codeOf(program(
+      block('daad_list_append', {
+        fields: { VAR: 'ق', OP: 'PUSH' },
+        inputs: { ITEM: num(3) },
+      })
+    ));
+    expect(code.trim()).toBe('ق = ادفع(ق, 3)');
+  });
+
+  it('daad_list_pop -> q = ازل(q)', () => {
+    expect(codeOf(program(
+      block('daad_list_pop', { fields: { VAR: 'ق' } })
+    )).trim()).toBe('ق = ازل(ق)');
+  });
+
+  it('daad_list_copy -> انسخ(list)', () => {
+    const code = codeOf(program(
+      block('daad_list_copy', { inputs: { LIST: { block: { kind: 'block', type: 'lists_create_empty' } } } })
+    ));
+    expect(code.trim()).toBe('انسخ([])');
+  });
+
+  it('daad_list_clear -> q = افرغ(q)', () => {
+    expect(codeOf(program(
+      block('daad_list_clear', { fields: { VAR: 'ق' } })
+    )).trim()).toBe('ق = افرغ(ق)');
+  });
+});

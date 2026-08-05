@@ -1,7 +1,7 @@
 var Daad = new Blockly.CodeGenerator('Daad');
 Daad.ORDER_ATOMIC = 0;
 
-Daad.RESERVED_WORDS_ = 'اذا,واذا,والا,طالما,لكل,كرر,مرات,في,اطبع,دالة,ارجع,أرجع,صحيح,خطأ,ليس,لا,نوع,طول,نص,عشري,اخرج,أخرج,تابع,و,أو,او,صنف,فئة,ادخل,ذاتي,هذا,استورد,من';
+Daad.RESERVED_WORDS_ = 'اذا,لو,واذا,ولو,والا,طالما,مادام,لكل,في,كرر,مرات,مرة,اطبع,دالة,ارجع,أرجع,صحيح,خطأ,خطا,ليس,لا,نوع,طول,نص,عشري,اخرج,أخرج,تابع,و,أو,او,صنف,فئة,ادخل,ذاتي,هذا,استورد,من,ك,كـ,باسم,نسق,نطاق,اضف,ادفع,ازل,انسخ,افرغ';
 
 Daad.init = function(workspace) {
   Blockly.CodeGenerator.prototype.init.call(this, workspace);
@@ -253,6 +253,12 @@ Daad.forBlock['daad_float'] = function(block, generator) {
   return ['عشري(' + (generator.valueToCode(block, 'VALUE', Daad.ORDER_ATOMIC) || '0') + ')', Daad.ORDER_ATOMIC];
 };
 
+Daad.forBlock['daad_format'] = function(block, generator) {
+  var template = q(block.getFieldValue('TEMPLATE') || '');
+  var args = generator.valueToCode(block, 'ARGS', Daad.ORDER_ATOMIC);
+  return ['نسق(' + template + (args ? ', ' + args : '') + ')', Daad.ORDER_ATOMIC];
+};
+
 Daad.forBlock['daad_type'] = function(block, generator) {
   return ['نوع(' + (generator.valueToCode(block, 'VALUE', Daad.ORDER_ATOMIC) || '0') + ')', Daad.ORDER_ATOMIC];
 };
@@ -261,6 +267,31 @@ Daad.forBlock['daad_list_get'] = function(block, generator) {
   var list = generator.valueToCode(block, 'LIST', Daad.ORDER_ATOMIC) || '[]';
   var idx = generator.valueToCode(block, 'INDEX', Daad.ORDER_ATOMIC) || '0';
   return [list + '[' + idx + ']', Daad.ORDER_ATOMIC];
+};
+
+Daad.forBlock['daad_list_append'] = function(block, generator) {
+  var varName = generator.getVariableName(block.getFieldValue('VAR'));
+  var fn = block.getFieldValue('OP') === 'PUSH' ? 'ادفع' : 'اضف';
+  var item = generator.valueToCode(block, 'ITEM', Daad.ORDER_ATOMIC) || '0';
+  return varName + ' = ' + fn + '(' + varName + ', ' + item + ')\n';
+};
+
+Daad.forBlock['daad_list_pop'] = function(block, generator) {
+  var varName = generator.getVariableName(block.getFieldValue('VAR'));
+  return varName + ' = ازل(' + varName + ')\n';
+};
+
+Daad.forBlock['daad_list_copy'] = function(block, generator) {
+  return ['انسخ(' + (generator.valueToCode(block, 'LIST', Daad.ORDER_ATOMIC) || '[]') + ')', Daad.ORDER_ATOMIC];
+};
+
+Daad.forBlock['daad_list_clear'] = function(block, generator) {
+  var varName = generator.getVariableName(block.getFieldValue('VAR'));
+  return varName + ' = افرغ(' + varName + ')\n';
+};
+
+Daad.forBlock['daad_range'] = function(block, generator) {
+  return ['نطاق(' + (generator.valueToCode(block, 'END', Daad.ORDER_ATOMIC) || '0') + ')', Daad.ORDER_ATOMIC];
 };
 
 Daad.forBlock['daad_dict'] = function(block) {
@@ -375,12 +406,12 @@ Daad.forBlock['daad_bitwise_not'] = function(block, generator) {
 };
 
 Daad.forBlock['daad_import'] = function(block) {
-  var mod = block.getFieldValue('MODULE') || 'math';
+  var mod = block.getFieldValue('MODULE') || 'رياضيات';
   return 'استورد ' + mod + '\n';
 };
 
 Daad.forBlock['daad_import_from'] = function(block) {
-  var mod = block.getFieldValue('MODULE') || 'math';
+  var mod = block.getFieldValue('MODULE') || 'رياضيات';
   var name = block.getFieldValue('NAME') || 'جذر';
   return 'من ' + mod + ' استورد ' + name + '\n';
 };

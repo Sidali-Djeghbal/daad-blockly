@@ -7,7 +7,8 @@ window.DAAD_TOOLBOX = {
       { kind: 'block', type: 'text_length' },
       { kind: 'block', type: 'text_join' },
       { kind: 'block', type: 'text_append' },
-      { kind: 'block', type: 'daad_str' }
+      { kind: 'block', type: 'daad_str' },
+      { kind: 'block', type: 'daad_format' }
     ]},
     { kind: 'category', name: 'أرقام', colour: '#5CA65C', contents: [
       { kind: 'block', type: 'math_number' },
@@ -30,7 +31,12 @@ window.DAAD_TOOLBOX = {
       { kind: 'block', type: 'lists_create_empty' },
       { kind: 'block', type: 'daad_tuple' },
       { kind: 'block', type: 'daad_list_get' },
-      { kind: 'block', type: 'lists_length' }
+      { kind: 'block', type: 'lists_length' },
+      { kind: 'block', type: 'daad_range' },
+      { kind: 'block', type: 'daad_list_append' },
+      { kind: 'block', type: 'daad_list_pop' },
+      { kind: 'block', type: 'daad_list_copy' },
+      { kind: 'block', type: 'daad_list_clear' }
     ]},
     { kind: 'category', name: 'قاموس', colour: '#C56B6B', contents: [
       { kind: 'block', type: 'daad_dict' }

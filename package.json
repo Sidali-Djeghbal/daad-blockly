@@ -14,7 +14,8 @@
     "lint:fix": "eslint . --fix",
     "dist": "electron-builder",
     "dist:linux": "electron-builder --linux",
-    "dist:win": "electron-builder --win"
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac"
   },
   "build": {
     "appId": "com.daad.blockly",
@@ -30,6 +31,7 @@
       "assets/**/*",
       "node_modules/**/*"
     ],
+    "asarUnpack": ["bin/**"],
     "linux": {
       "target": [
         "AppImage",
@@ -39,14 +41,23 @@
       "icon": "assets/icons/512.png",
       "maintainer": "Sidali Djeghbal <sidali.djeghbal@gmail.com>",
       "syncDesktopName": true,
-      "files": ["bin/daad"]
+      "files": ["bin/linux/**"]
     },
     "win": {
       "target": [
         "nsis"
       ],
       "icon": "assets/icons/icon.ico",
-      "files": ["bin/daad.exe"]
+      "files": ["bin/win32/**"]
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.education",
+      "icon": "assets/icons/512.png",
+      "files": ["bin/darwin/**"]
     },
     "nsis": {
       "oneClick": false,

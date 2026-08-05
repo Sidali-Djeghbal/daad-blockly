@@ -6,7 +6,11 @@ Guidance for AI agents (and humans) working in this repository.
 
 `daad-blockly` — Arabic (RTL) visual programming desktop app built with Electron
 and Google Blockly. Generates code for the Daad language and runs it via a
-bundled `bin/daad` interpreter.
+bundled interpreter. Binaries live under `bin/<platform>/<arch>/` where platform
+is one of `linux` / `darwin` / `win32` and arch is `x64` / `x86` / `arm64`; the
+binary is `daad` on Unix and `daad.exe` on Windows. All 8 combinations ship
+(currently daad v0.2.0, ~1.1 MB each) so the app runs fully offline on every
+supported OS/CPU. Keep them in sync with daadLang releases.
 
 The app uses **plain-script globals**, not ES modules: `Blockly` is a window
 global injected by the UMD scripts loaded in `index.html`; the renderer, custom
@@ -28,6 +32,7 @@ tested in `tests/app.logic.test.js` against a stubbed `api`.
 - `npm run lint` — ESLint, warn-level output, exit 0 on success.
 - `npm run lint:fix` — ESLint with auto-fix.
 - `npm run dist[:linux|:win|:mac]` — package installers via electron-builder.
+  `dist:mac` accepts `--x64`/`--arm64`; `release.yml` builds all three.
 
 ## Testing
 
@@ -75,5 +80,11 @@ Releases are produced by `.github/workflows/release.yml` on `v*` tags.
 - Generator orders add parentheses when the inner block's precedence is looser
   than the requested order, so tests sometimes see double parens like
   `اذا ((a == b)):` — that is the actual generated output, not a bug.
-- `daad_dict` returns the ITEMS field verbatim (no `{}` wrapping) — a known gap
-  versus the README table; tests assert the real behaviour.
+- `daad_dict` wraps the ITEMS field in `{}` unless the field already begins and
+  ends with braces, so a default `'{}'` field is emitted as `{}` (no double wrap).
+- Do **not** add a `صحيح` int-cast block: `صحيح` is also the boolean-literal
+  keyword in daad v0.2.0, so `صحيح(x)` panics the interpreter (keyword
+  collision in daadLang/daad). Use `عشري(...)`/`نص(...)` casts only.
+- New custom blocks are verified end-to-end by running generated code through
+  `bin/linux/x64/daad` — the real interpreter sometimes rejects what looks like
+  valid output (e.g. the `صحيح` case above).

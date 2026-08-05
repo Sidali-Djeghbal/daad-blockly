@@ -41,17 +41,21 @@ app.whenReady().then(() => {
 });
 
 const getDaadBinary = () => {
-  const { platform } = process;
-  if (platform === 'darwin') {
-    throw new Error('macOS غير مدعوم حالياً — لا تتوفر بنية ضاد لنظام macOS.');
+  const platformMap = { win32: 'win32', linux: 'linux', darwin: 'darwin' };
+  const archMap = { x64: 'x64', arm64: 'arm64', ia32: 'x86' };
+  const platformDir = platformMap[process.platform];
+  const archDir = archMap[process.arch];
+  if (!platformDir) {
+    throw new Error('نظام التشغيل غير مدعوم حالياً: ' + process.platform);
   }
-  const isWin = platform === 'win32';
+  if (!archDir) {
+    throw new Error('معمارية المعالج غير مدعومة حالياً: ' + process.arch);
+  }
+  const isWin = process.platform === 'win32';
   const binName = isWin ? 'daad.exe' : 'daad';
-  const binPath = path.join(__dirname, 'bin', binName);
+  const binPath = path.join(__dirname, 'bin', platformDir, archDir, binName);
   if (!fs.existsSync(binPath)) {
-    const altPath = path.join(__dirname, 'bin', 'ض');
-    if (fs.existsSync(altPath)) return altPath;
-    throw new Error(`Daad binary not found at ${binPath}`);
+    throw new Error('لم يتم العثور على بنية ضاد في ' + binPath);
   }
   return binPath;
 };
