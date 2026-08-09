@@ -31,7 +31,7 @@
 
 ```bash
 # استنساخ المستودع
-git clone https://github.com/Sidali-Djeghbal/daad-blockly.git
+git clone https://github.com/daadLang/daad-blockly
 cd daad-blockly
 
 # تثبيت التبعيات
